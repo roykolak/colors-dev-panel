@@ -1,0 +1,14 @@
+{
+  "name": "Colors dev panel",
+  "version": "0.0.1",
+  "manifest_version": 2,
+  "description": "Color controls, right in your dev console",
+  "default_locale":"en",
+  "minimum_chrome_version": "29",
+  "devtools_page": "devtools.html",
+  "icons": {
+    "16": "images/icons/icon16.png",
+    "48": "images/icons/icon48.png",
+    "128": "images/icons/icon128.png"
+  }
+}

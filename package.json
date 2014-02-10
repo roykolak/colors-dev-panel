@@ -1,0 +1,17 @@
+{
+  "name": "colors-dev-panel",
+  "description": "Colors dev panel for Chrome",
+  "version": "0.0.1",
+  "author": "Roy Kolak <roy.kolak@gmail.com>",
+  "scripts": {
+    "start": "node_modules/.bin/coffee -w -o js coffee",
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/roykolak/colors-dev-panel.git"
+  },
+  "devDependencies": {
+    "coffee-script": "1.6.1"
+  },
+  "license": "MIT"
+}
