@@ -147,10 +147,11 @@
       return ColorView.__super__.constructor.apply(this, arguments);
     }
 
-    ColorView.prototype.template = "<div class=\"profile\">\n  <div class=\"swatch\" style=\"background: {{hex}}\"></div>\n  <div class=\"formats\">\n    <dl>\n      <dt>HEX</dt>\n      <dd>{{hex}}</dd>\n      <dt>RGB</dt>\n      <dd>{{rgb}}</dd>\n      <dt>HSL</dt>\n      <dd>{{hsl}}</dd>\n    </dl>\n  </div>\n</div>\n<ul class=\"lighten colors\">\n  {{#lighten}}\n    <li style=\"background: {{.}}\">\n      <a href=\"#\" data-color=\"{{.}}\" class=\"color\"></a>\n    </li>\n  {{/lighten}}\n</ul>\n<ul class=\"darken colors\">\n  {{#darken}}\n    <li style=\"background: {{.}}\">\n      <a href=\"#\" data-color=\"{{.}}\" class=\"color\"></a>\n    </li>\n  {{/darken}}\n</ul>\n<ul class=\"saturate\">\n  {{#saturate}}\n    <li style=\"background: {{.}}\">\n      <a href=\"#\" data-color=\"{{.}}\" class=\"color\"></a>\n    </li>\n  {{/saturate}}\n</ul>";
+    ColorView.prototype.template = "<div class=\"profile\">\n  <div class=\"swatch\" style=\"background: {{hex}}\"></div>\n  <div class=\"formats\">\n    <dl>\n      <dt>HEX</dt>\n      <dd>{{hex}}</dd>\n      <dt>RGB</dt>\n      <dd>{{rgb}}</dd>\n      <dt>HSL</dt>\n      <dd>{{hsl}}</dd>\n    </dl>\n  </div>\n</div>\n<ul class=\"lighten colors\">\n  {{#lighten}}\n    <li style=\"background: {{.}}\">\n      <a href=\"#\" data-color=\"{{.}}\" class=\"color\"></a>\n      <a href=\"#\" data-color=\"{{.}}\" title=\"copy to clipboard\" class=\"fa fa-copy copy\"></a>\n    </li>\n  {{/lighten}}\n</ul>\n<ul class=\"darken colors\">\n  {{#darken}}\n    <li style=\"background: {{.}}\">\n      <a href=\"#\" data-color=\"{{.}}\" class=\"color\"></a>\n      <a href=\"#\" data-color=\"{{.}}\" title=\"copy to clipboard\" class=\"fa fa-copy copy\"></a>\n    </li>\n  {{/darken}}\n</ul>\n<ul class=\"saturate colors\">\n  {{#saturate}}\n    <li style=\"background: {{.}}\">\n      <a href=\"#\" data-color=\"{{.}}\" class=\"color\"></a>\n      <a href=\"#\" data-color=\"{{.}}\" title=\"copy to clipboard\" class=\"fa fa-copy copy\"></a>\n    </li>\n  {{/saturate}}\n</ul>";
 
     ColorView.prototype.events = {
-      'click .color': 'onColorClick'
+      'click .color': 'onColorClick',
+      'click .copy': 'onCopyClick'
     };
 
     ColorView.prototype.initialize = function() {
@@ -174,6 +175,11 @@
       return this.collection.add({
         hex: this.model.get('hex')
       });
+    };
+
+    ColorView.prototype.onCopyClick = function(ev) {
+      ev.preventDefault();
+      return copy($(ev.currentTarget).data('color'));
     };
 
     ColorView.prototype.onHexChange = function() {

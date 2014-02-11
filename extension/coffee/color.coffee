@@ -78,6 +78,7 @@ class ColorView extends Backbone.View
         {{#lighten}}
           <li style="background: {{.}}">
             <a href="#" data-color="{{.}}" class="color"></a>
+            <a href="#" data-color="{{.}}" title="copy to clipboard" class="fa fa-copy copy"></a>
           </li>
         {{/lighten}}
       </ul>
@@ -85,13 +86,15 @@ class ColorView extends Backbone.View
         {{#darken}}
           <li style="background: {{.}}">
             <a href="#" data-color="{{.}}" class="color"></a>
+            <a href="#" data-color="{{.}}" title="copy to clipboard" class="fa fa-copy copy"></a>
           </li>
         {{/darken}}
       </ul>
-      <ul class="saturate">
+      <ul class="saturate colors">
         {{#saturate}}
           <li style="background: {{.}}">
             <a href="#" data-color="{{.}}" class="color"></a>
+            <a href="#" data-color="{{.}}" title="copy to clipboard" class="fa fa-copy copy"></a>
           </li>
         {{/saturate}}
       </ul>
@@ -99,6 +102,7 @@ class ColorView extends Backbone.View
 
   events:
     'click .color': 'onColorClick'
+    'click .copy': 'onCopyClick'
 
   initialize: ->
     @model.on 'change:hex', @onHexChange, @
@@ -115,6 +119,10 @@ class ColorView extends Backbone.View
     ev.preventDefault()
     @model.set hex: $(ev.currentTarget).data('color')
     @collection.add hex: @model.get('hex')
+
+  onCopyClick: (ev) ->
+    ev.preventDefault()
+    copy $(ev.currentTarget).data('color')
 
   onHexChange: ->
     @render()
