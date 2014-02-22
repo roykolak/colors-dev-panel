@@ -75,7 +75,27 @@
       }
       return _results;
     },
-    sixToneCW: function(hex) {
+    neutral: function(hex) {
+      var color, _i, _len, _ref, _results;
+      _ref = this.Color(hex).neutralScheme();
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        color = _ref[_i];
+        _results.push(color.toString());
+      }
+      return _results;
+    },
+    tetradic: function(hex) {
+      var color, _i, _len, _ref, _results;
+      _ref = this.Color(hex).tetradicScheme();
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        color = _ref[_i];
+        _results.push(color.toString());
+      }
+      return _results;
+    },
+    sixTone: function(hex) {
       var color, _i, _len, _ref, _results;
       _ref = this.Color(hex).sixToneCWScheme();
       _results = [];

@@ -1,9 +1,3 @@
-class ColorModel extends Backbone.Model
-  defaults:
-    steps: 20
-    color: '#4573D5'
-    blendColor: '#D54545'
-
 class TabView extends Backbone.View
   template:
     """
@@ -52,11 +46,11 @@ class ColorView extends Backbone.View
   template:
     """
       <div class="profile">
-        <div class="swatch" style="background: {{hex}}"></div>
+        <div class="swatch" style="background: {{color}}"></div>
         <div class="formats">
           <dl>
             <dt>HEX</dt>
-            <dd>{{hex}}</dd>
+            <dd>{{color}}</dd>
           </dl>
         </div>
       </div>
@@ -69,10 +63,10 @@ class ColorView extends Backbone.View
 class RangeView extends Backbone.View
   template:
     """
-      <div class="colors"></div>
+      <div class="range_colors"></div>
       <div class="range_controls">
-        <input type="range" id="steps" min="3" max="1000" value="20">
-        <span class="steps">{{steps}}</span>
+        <input type="range" id="steps" min="3" max="200" value="{{steps}}">
+        <span><span class="steps">{{steps}}</span> steps</span>
       </div>
     """
 
@@ -81,6 +75,7 @@ class RangeView extends Backbone.View
 
   initialize: (options) ->
     @mode = options.mode
+    @model.on 'change:steps', @renderColors, @
 
   render: ->
     @$el.html Mustache.render @template, @model.toJSON()
@@ -89,21 +84,21 @@ class RangeView extends Backbone.View
 
   renderColors: ->
     colorsView = new ColorsView(colors: ColorLib[@mode](@model.toJSON()))
-    @$('.colors').html colorsView.render().el
+    @$('.range_colors').html colorsView.render().el
 
   onStepsChange: (ev) ->
-    $('.steps').text "#{$(ev.currentTarget).val()} steps"
-    @model.set steps: $(ev.currentTarget).val()
-    @renderColors()
+    steps = parseInt($(ev.currentTarget).val(), 10)
+    $('.steps').text steps
+    @model.set steps: steps
 
 class BlendView extends Backbone.View
   template:
     """
       <div class="colors"></div>
       <div class="range_controls">
+        <input type="color" class="color_picker" id="color_picker" value="{{blendColor}}">
         <input type="range" id="steps" min="3" max="1000" value="20">
-        <span class="steps">{{steps}}</span>
-        <input type="color" id="color_picker" value="{{blendColor}}">
+        <span><span class="steps">{{steps}}</span> steps</span>
       </div>
     """
 
@@ -125,8 +120,9 @@ class BlendView extends Backbone.View
     @$('.colors').html colorsView.render().el
 
   onStepsChange: (ev) ->
-    $('.steps').text "#{$(ev.currentTarget).val()} steps"
-    @model.set steps: $(ev.currentTarget).val()
+    steps = parseInt($(ev.currentTarget).val(), 10)
+    $('.steps').text steps
+    @model.set steps: steps
 
   onBlendColorChange: (ev) ->
     @model.set blendColor: $(ev.currentTarget).val()
@@ -160,6 +156,12 @@ class SchemaView extends Backbone.View
       <div class="triadic"></div>
       <h4>Analogous</h4>
       <div class="analogous"></div>
+      <h4>Neutral</h4>
+      <div class="neutral"></div>
+      <h4>Tetradic</h4>
+      <div class="tetradic"></div>
+      <h4>SixTone</h4>
+      <div class="six_tone"></div>
     """
 
   render: ->
@@ -175,11 +177,18 @@ class SchemaView extends Backbone.View
     @$('.triadic').html view.render().el
     view = new ColorsView(colors: ColorLib.analogous(color))
     @$('.analogous').html view.render().el
-    view = new ColorsView(colors: ColorLib.sixToneCW(color))
-    @$('.sixToneCW').html view.render().el
+    view = new ColorsView(colors: ColorLib.sixTone(color))
+    @$('.six_tone').html view.render().el
+    view = new ColorsView(colors: ColorLib.neutral(color))
+    @$('.neutral').html view.render().el
+    view = new ColorsView(colors: ColorLib.tetradic(color))
+    @$('.tetradic').html view.render().el
 
 $ ->
-  model = new ColorModel(hex: '#4573D5')
+  model = new Backbone.Model
+    color: '#4573D5'
+    steps: 40
+    blendColor: '#D54545'
 
   colorView = new ColorView model: model
   $('.side').html colorView.render().el
@@ -187,9 +196,12 @@ $ ->
   tabView = new TabView model: model
   tabView.on 'selection', (selection) ->
     view = switch selection
-      when 'schemas' then new SchemaView(model: @model)
-      when 'blend' then new BlendView(model: @model)
-      else new RangeView(model: @model, mode: selection)
+      when 'schemas'
+        new SchemaView(model: @model)
+      when 'blend'
+        new BlendView(model: @model)
+      else
+        new RangeView(model: @model, mode: selection)
     @update(view.render().el)
   , tabView
 

@@ -35,5 +35,11 @@ window.ColorLib =
   analogous: (hex) ->
     (color.toString() for color in @Color(hex).analogousScheme())
 
-  sixToneCW: (hex) ->
+  neutral: (hex) ->
+    (color.toString() for color in @Color(hex).neutralScheme())
+
+  tetradic: (hex) ->
+    (color.toString() for color in @Color(hex).tetradicScheme())
+
+  sixTone: (hex) ->
     (color.toString() for color in @Color(hex).sixToneCWScheme())
