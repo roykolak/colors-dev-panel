@@ -5,6 +5,9 @@
   "description": "Color controls, right in your dev console",
   "minimum_chrome_version": "29",
   "devtools_page": "devtools.html",
+  "background": {
+    "scripts": ["js/background.js"]
+  },
   "icons": {
     "16": "images/icons/icon16.png",
     "48": "images/icons/icon48.png",

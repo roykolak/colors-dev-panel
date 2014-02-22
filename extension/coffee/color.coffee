@@ -1,62 +1,52 @@
-ColorLib =
-  lighten: (hex, decimal) ->
-    Color(hex).lighten(decimal).hexString()
-
-  darken: (hex, decimal) ->
-    Color(hex).darken(decimal).hexString()
-
-  saturate: (hex, decimal) ->
-    Color(hex).saturate(decimal).hexString()
-
-  range: ->
-    out = []
-    for i in [1..100]
-      out.push i if i % 5 == 0
-    out
-
-  lightenRange: (hex, range = 20) ->
-    out = (@lighten(hex, i / 100) for i in @range())
-    out.splice(0, range)
-
-  darkenRange: (hex, range = 20) ->
-    out = (@darken(hex, i / 100) for i in @range())
-    out.splice(0, range)
-
-  saturateRange: (hex, range = 20) ->
-    out = (@saturate(hex, i / 100) for i in @range())
-    out.splice(0, range)
-
 class ColorModel extends Backbone.Model
-  initialize: ->
-    @set
-      rgb: Color(@get('hex')).rgbString()
-      hsl: Color(@get('hex')).hslString()
+  defaults:
+    steps: 20
+    color: '#4573D5'
+    blendColor: '#D54545'
 
-class Colors extends Backbone.Collection
-  model: ColorModel
-
-class ColorsView extends Backbone.View
+class TabView extends Backbone.View
   template:
     """
-      <ul class="colors">
-        {{#colors}}
-          <li data-color="{{hex}}" style="background: {{hex}}">
-            <a href="#"></a>
-          </li>
-        {{/colors}}
+      <ul class="tabs">
+        <li class="selected" data-tab="lighten">
+          <a href="#">Lighten</a>
+        </li>
+        <li data-tab="darken">
+          <a href="#">Darken</a>
+        </li>
+        <li data-tab="saturate">
+          <a href="#">Saturate</a>
+        </li>
+        <li data-tab="desaturate">
+          <a href="#">Desaturate</a>
+        </li>
+        <li data-tab="blend">
+          <a href="#">Blend</a>
+        </li>
+        <li data-tab="schemas">
+          <a href="#">Schemas</a>
+        </li>
       </ul>
+      <div id="tab_content" style="overflow: scroll"></div>
     """
 
-  initialize: ->
-    @collection.on "add", @onColorAdd, @
+  events:
+    "click li": "onItemClick"
 
   render: ->
-    @$el.html Mustache.render @template,
-      colors: @collection.toJSON().reverse()
+    @$el.html Mustache.render @template
+    @trigger 'selection', 'lighten'
     this
 
-  onColorAdd: ->
-    @render()
+  onItemClick: (ev) ->
+    ev.preventDefault()
+    $el = $(ev.currentTarget)
+    @$('.selected').removeClass('selected')
+    $el.addClass('selected')
+    @trigger 'selection', $el.data('tab')
+
+  update: ($el) ->
+    @$('#tab_content').html $el
 
 class ColorView extends Backbone.View
   template:
@@ -67,75 +57,140 @@ class ColorView extends Backbone.View
           <dl>
             <dt>HEX</dt>
             <dd>{{hex}}</dd>
-            <dt>RGB</dt>
-            <dd>{{rgb}}</dd>
-            <dt>HSL</dt>
-            <dd>{{hsl}}</dd>
           </dl>
         </div>
       </div>
-      <ul class="lighten colors">
-        {{#lighten}}
-          <li style="background: {{.}}">
-            <a href="#" data-color="{{.}}" class="color"></a>
-            <a href="#" data-color="{{.}}" title="copy to clipboard" class="fa fa-copy copy"></a>
-          </li>
-        {{/lighten}}
-      </ul>
-      <ul class="darken colors">
-        {{#darken}}
-          <li style="background: {{.}}">
-            <a href="#" data-color="{{.}}" class="color"></a>
-            <a href="#" data-color="{{.}}" title="copy to clipboard" class="fa fa-copy copy"></a>
-          </li>
-        {{/darken}}
-      </ul>
-      <ul class="saturate colors">
-        {{#saturate}}
-          <li style="background: {{.}}">
-            <a href="#" data-color="{{.}}" class="color"></a>
-            <a href="#" data-color="{{.}}" title="copy to clipboard" class="fa fa-copy copy"></a>
-          </li>
-        {{/saturate}}
-      </ul>
+    """
+
+  render: ->
+    @$el.html Mustache.render @template, @model.toJSON()
+    this
+
+class RangeView extends Backbone.View
+  template:
+    """
+      <div class="colors"></div>
+      <div class="range_controls">
+        <input type="range" id="steps" min="3" max="1000" value="20">
+        <span class="steps">{{steps}}</span>
+      </div>
     """
 
   events:
-    'click .color': 'onColorClick'
-    'click .copy': 'onCopyClick'
+    "input #steps": "onStepsChange"
 
-  initialize: ->
-    @model.on 'change:hex', @onHexChange, @
+  initialize: (options) ->
+    @mode = options.mode
 
   render: ->
-    @$el.html Mustache.render @template,
-      _.extend {}, @model.toJSON(),
-        lighten: ColorLib.lightenRange(@model.get('hex'))
-        darken: ColorLib.darkenRange(@model.get('hex'))
-        saturate: ColorLib.saturateRange(@model.get('hex'))
+    @$el.html Mustache.render @template, @model.toJSON()
+    @renderColors()
     this
 
-  onColorClick: (ev) ->
-    ev.preventDefault()
-    @model.set hex: $(ev.currentTarget).data('color')
-    @collection.add hex: @model.get('hex')
+  renderColors: ->
+    colorsView = new ColorsView(colors: ColorLib[@mode](@model.toJSON()))
+    @$('.colors').html colorsView.render().el
 
-  onCopyClick: (ev) ->
-    ev.preventDefault()
-    copy $(ev.currentTarget).data('color')
+  onStepsChange: (ev) ->
+    $('.steps').text "#{$(ev.currentTarget).val()} steps"
+    @model.set steps: $(ev.currentTarget).val()
+    @renderColors()
 
-  onHexChange: ->
-    @render()
+class BlendView extends Backbone.View
+  template:
+    """
+      <div class="colors"></div>
+      <div class="range_controls">
+        <input type="range" id="steps" min="3" max="1000" value="20">
+        <span class="steps">{{steps}}</span>
+        <input type="color" id="color_picker" value="{{blendColor}}">
+      </div>
+    """
+
+  events:
+    "input #steps": "onStepsChange"
+    "input #color_picker": "onBlendColorChange"
+
+  initialize: ->
+    @model.on 'change:steps', @renderColors, @
+    @model.on 'change:blendColor', @renderColors, @
+
+  render: ->
+    @$el.html Mustache.render @template, @model.toJSON()
+    @renderColors()
+    this
+
+  renderColors: ->
+    colorsView = new ColorsView(colors: ColorLib.blend(@model.toJSON()))
+    @$('.colors').html colorsView.render().el
+
+  onStepsChange: (ev) ->
+    $('.steps').text "#{$(ev.currentTarget).val()} steps"
+    @model.set steps: $(ev.currentTarget).val()
+
+  onBlendColorChange: (ev) ->
+    @model.set blendColor: $(ev.currentTarget).val()
+
+class ColorsView extends Backbone.View
+  template:
+    """
+      <ol class="colors">
+        {{#colors}}
+          <li style="background: {{.}}">
+            <a href="#" data-color="{{.}}" class="color"></a>
+            <a href="#" data-color="{{.}}" title="copy to clipboard" class="fa fa-copy copy"></a>
+          </li>
+        {{/colors}}
+      </ol>
+    """
+
+  initialize: (options) ->
+    @colors = options.colors
+
+  render: ->
+    @$el.html Mustache.render @template, colors: @colors
+    this
+
+class SchemaView extends Backbone.View
+  template:
+    """
+      <h4>Complementary</h4>
+      <div class="complementary"></div>
+      <h4>Triadic</h4>
+      <div class="triadic"></div>
+      <h4>Analogous</h4>
+      <div class="analogous"></div>
+    """
+
+  render: ->
+    @$el.html Mustache.render @template
+    @renderColors()
+    this
+
+  renderColors: ->
+    color = @model.get('color')
+    view = new ColorsView(colors: ColorLib.complementary(color))
+    @$('.complementary').html view.render().el
+    view = new ColorsView(colors: ColorLib.triadic(color))
+    @$('.triadic').html view.render().el
+    view = new ColorsView(colors: ColorLib.analogous(color))
+    @$('.analogous').html view.render().el
+    view = new ColorsView(colors: ColorLib.sixToneCW(color))
+    @$('.sixToneCW').html view.render().el
 
 $ ->
-  recentColors = new Colors(hex: '#4573D5')
-  new ColorsView(
-    collection: recentColors
-    el: $('#recent_colors')
-  ).render()
+  model = new ColorModel(hex: '#4573D5')
 
-  new ColorView(
-    model: new ColorModel(hex: '#4573D5')
-    collection: recentColors
-    el: $('#color')
-  ).render()
+  colorView = new ColorView model: model
+  $('.side').html colorView.render().el
+
+  tabView = new TabView model: model
+  tabView.on 'selection', (selection) ->
+    view = switch selection
+      when 'schemas' then new SchemaView(model: @model)
+      when 'blend' then new BlendView(model: @model)
+      else new RangeView(model: @model, mode: selection)
+    @update(view.render().el)
+  , tabView
+
+  $('.main').html tabView.render().el
