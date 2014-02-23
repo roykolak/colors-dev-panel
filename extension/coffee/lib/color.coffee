@@ -1,4 +1,4 @@
-window.ColorLib =
+Panel.Lib.Color =
   Color: (hex) ->
     net.brehaut.Color(hex)
 

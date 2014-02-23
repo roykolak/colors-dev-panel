@@ -1,0 +1,3 @@
+window.Panel =
+  Views: {}
+  Lib: {}
