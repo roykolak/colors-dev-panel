@@ -14,6 +14,7 @@ class Panel.Views.RangeView extends Backbone.View
   initialize: (options) ->
     @mode = options.mode
     @model.on 'change:steps', @renderColors, @
+    @model.on 'change:color', @render, @
 
   render: ->
     @$el.html Mustache.render @template, @model.toJSON()
@@ -21,12 +22,12 @@ class Panel.Views.RangeView extends Backbone.View
     this
 
   renderColors: ->
-    colors = Panel.Lib.Color[@mode](@model.toJSON())
-    colorsView = new Panel.Views.ColorsView(colors: colors)
+    colorsView = new Panel.Views.ColorsView
+      model: @model
+      colors: Panel.Lib.Color[@mode](@model.toJSON())
     @$('.range_colors').html colorsView.render().el
 
   onStepsChange: (ev) ->
     steps = parseInt($(ev.currentTarget).val(), 10)
     $('.steps').text steps
     @model.set steps: steps
-

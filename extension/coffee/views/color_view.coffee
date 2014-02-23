@@ -12,6 +12,9 @@ class Panel.Views.ColorView extends Backbone.View
       </div>
     """
 
+  initialize: ->
+    @model.on 'change:color', @render, @
+
   render: ->
     @$el.html Mustache.render @template, @model.toJSON()
     this

@@ -19,7 +19,8 @@
 
     RangeView.prototype.initialize = function(options) {
       this.mode = options.mode;
-      return this.model.on('change:steps', this.renderColors, this);
+      this.model.on('change:steps', this.renderColors, this);
+      return this.model.on('change:color', this.render, this);
     };
 
     RangeView.prototype.render = function() {
@@ -29,10 +30,10 @@
     };
 
     RangeView.prototype.renderColors = function() {
-      var colors, colorsView;
-      colors = Panel.Lib.Color[this.mode](this.model.toJSON());
+      var colorsView;
       colorsView = new Panel.Views.ColorsView({
-        colors: colors
+        model: this.model,
+        colors: Panel.Lib.Color[this.mode](this.model.toJSON())
       });
       return this.$('.range_colors').html(colorsView.render().el);
     };

@@ -11,7 +11,11 @@
       return SchemaView.__super__.constructor.apply(this, arguments);
     }
 
-    SchemaView.prototype.template = "<h4>Complementary</h4>\n<div class=\"complementary\"></div>\n<h4>Triadic</h4>\n<div class=\"triadic\"></div>\n<h4>Analogous</h4>\n<div class=\"analogous\"></div>\n<h4>Neutral</h4>\n<div class=\"neutral\"></div>\n<h4>Tetradic</h4>\n<div class=\"tetradic\"></div>\n<h4>SixTone</h4>\n<div class=\"sixTone\"></div>";
+    SchemaView.prototype.template = "<dl>\n  <dt>Complementary</dt>\n  <dd class=\"complementary\"></dd>\n  <dt>Triadic</dt>\n  <dd class=\"triadic\"></dd>\n  <dt>Analogous</dt>\n  <dd class=\"analogous\"></dd>\n  <dt>Neutral</dt>\n  <dd class=\"neutral\"></dd>\n  <dt>Tetradic</dt>\n  <dd class=\"tetradic\"></dd>\n  <dt>SixTone</dt>\n  <dd class=\"sixTone\"></dd>\n</dl>";
+
+    SchemaView.prototype.initialize = function() {
+      return this.model.on('change:color', this.render, this);
+    };
 
     SchemaView.prototype.render = function() {
       this.$el.html(Mustache.render(this.template));
@@ -27,6 +31,7 @@
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         schema = _ref[_i];
         view = new Panel.Views.ColorsView({
+          model: this.model,
           colors: Panel.Lib.Color[schema](color)
         });
         _results.push(this.$("." + schema).html(view.render().el));

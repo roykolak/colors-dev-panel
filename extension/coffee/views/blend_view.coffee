@@ -14,6 +14,7 @@ class Panel.Views.BlendView extends Backbone.View
     "input #color_picker": "onBlendColorChange"
 
   initialize: ->
+    @model.on 'change:color', @render, @
     @model.on 'change:steps', @renderColors, @
     @model.on 'change:blendColor', @renderColors, @
 
@@ -23,8 +24,9 @@ class Panel.Views.BlendView extends Backbone.View
     this
 
   renderColors: ->
-    colors = Panel.Lib.Color.blend(@model.toJSON())
-    colorsView = new Panel.Views.ColorsView(colors: colors)
+    colorsView = new Panel.Views.ColorsView
+      colors: Panel.Lib.Color.blend(@model.toJSON())
+      model: @model
     @$('.colors').html colorsView.render().el
 
   onStepsChange: (ev) ->
@@ -34,4 +36,3 @@ class Panel.Views.BlendView extends Backbone.View
 
   onBlendColorChange: (ev) ->
     @model.set blendColor: $(ev.currentTarget).val()
-

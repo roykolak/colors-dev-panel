@@ -13,6 +13,7 @@ class Panel.Views.ColorsView extends Backbone.View
 
   events:
     "click .copy": "onCopyClicked"
+    "click .color": "onColorClicked"
 
   initialize: (options) ->
     @colors = options.colors
@@ -33,3 +34,7 @@ class Panel.Views.ColorsView extends Backbone.View
     document.execCommand('SelectAll')
     document.execCommand("Copy", false, null)
     document.body.removeChild(copyDiv)
+
+  onColorClicked: (ev) ->
+    ev.preventDefault()
+    @model.set color: $(ev.currentTarget).data('color')

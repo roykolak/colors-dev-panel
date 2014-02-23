@@ -14,7 +14,8 @@
     ColorsView.prototype.template = "<ol class=\"colors\">\n  {{#colors}}\n    <li style=\"background: {{.}}\">\n      <a href=\"#\" data-color=\"{{.}}\" class=\"color\"></a>\n      <a href=\"#\" data-color=\"{{.}}\" title=\"copy to clipboard\" class=\"fa fa-copy copy\"></a>\n    </li>\n  {{/colors}}\n</ol>";
 
     ColorsView.prototype.events = {
-      "click .copy": "onCopyClicked"
+      "click .copy": "onCopyClicked",
+      "click .color": "onColorClicked"
     };
 
     ColorsView.prototype.initialize = function(options) {
@@ -41,6 +42,13 @@
       document.execCommand('SelectAll');
       document.execCommand("Copy", false, null);
       return document.body.removeChild(copyDiv);
+    };
+
+    ColorsView.prototype.onColorClicked = function(ev) {
+      ev.preventDefault();
+      return this.model.set({
+        color: $(ev.currentTarget).data('color')
+      });
     };
 
     return ColorsView;

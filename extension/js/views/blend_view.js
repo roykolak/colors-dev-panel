@@ -19,6 +19,7 @@
     };
 
     BlendView.prototype.initialize = function() {
+      this.model.on('change:color', this.render, this);
       this.model.on('change:steps', this.renderColors, this);
       return this.model.on('change:blendColor', this.renderColors, this);
     };
@@ -30,10 +31,10 @@
     };
 
     BlendView.prototype.renderColors = function() {
-      var colors, colorsView;
-      colors = Panel.Lib.Color.blend(this.model.toJSON());
+      var colorsView;
       colorsView = new Panel.Views.ColorsView({
-        colors: colors
+        colors: Panel.Lib.Color.blend(this.model.toJSON()),
+        model: this.model
       });
       return this.$('.colors').html(colorsView.render().el);
     };

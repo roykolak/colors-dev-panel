@@ -13,6 +13,10 @@
 
     ColorView.prototype.template = "<div class=\"profile\">\n  <div class=\"swatch\" style=\"background: {{color}}\"></div>\n  <div class=\"formats\">\n    <dl>\n      <dt>HEX</dt>\n      <dd>{{color}}</dd>\n    </dl>\n  </div>\n</div>";
 
+    ColorView.prototype.initialize = function() {
+      return this.model.on('change:color', this.render, this);
+    };
+
     ColorView.prototype.render = function() {
       this.$el.html(Mustache.render(this.template, this.model.toJSON()));
       return this;
