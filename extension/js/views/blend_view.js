@@ -11,7 +11,7 @@
       return BlendView.__super__.constructor.apply(this, arguments);
     }
 
-    BlendView.prototype.template = "<div class=\"colors\"></div>\n<div class=\"range_controls\">\n  <input type=\"color\" class=\"color_picker\" id=\"color_picker\" value=\"{{blendColor}}\">\n  <input type=\"range\" id=\"steps\" min=\"3\" max=\"1000\" value=\"20\">\n  <span><span class=\"steps\">{{steps}}</span> steps</span>\n</div>";
+    BlendView.prototype.template = "<div class=\"range_colors\"></div>\n<div class=\"range_controls\">\n  <input type=\"color\" class=\"color_picker\" id=\"color_picker\" value=\"{{blendColor}}\">\n  <input type=\"range\" id=\"steps\" min=\"3\" max=\"200\" value=\"{{steps}}\">\n  <span><span class=\"steps\">{{steps}}</span> steps</span>\n</div>";
 
     BlendView.prototype.events = {
       "input #steps": "onStepsChange",
@@ -36,7 +36,7 @@
         colors: Panel.Lib.Color.blend(this.model.toJSON()),
         model: this.model
       });
-      return this.$('.colors').html(colorsView.render().el);
+      return this.$('.range_colors').html(colorsView.render().el);
     };
 
     BlendView.prototype.onStepsChange = function(ev) {
