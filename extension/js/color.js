@@ -169,6 +169,10 @@
 
     ColorsView.prototype.template = "<ol class=\"colors\">\n  {{#colors}}\n    <li style=\"background: {{.}}\">\n      <a href=\"#\" data-color=\"{{.}}\" class=\"color\"></a>\n      <a href=\"#\" data-color=\"{{.}}\" title=\"copy to clipboard\" class=\"fa fa-copy copy\"></a>\n    </li>\n  {{/colors}}\n</ol>";
 
+    ColorsView.prototype.events = {
+      "click .copy": "onCopyClicked"
+    };
+
     ColorsView.prototype.initialize = function(options) {
       return this.colors = options.colors;
     };
@@ -178,6 +182,21 @@
         colors: this.colors
       }));
       return this;
+    };
+
+    ColorsView.prototype.onCopyClicked = function(ev) {
+      var $el, copyDiv;
+      ev.preventDefault();
+      $el = $(ev.currentTarget);
+      copyDiv = document.createElement('div');
+      copyDiv.contentEditable = true;
+      document.body.appendChild(copyDiv);
+      copyDiv.innerHTML = $el.data('color');
+      copyDiv.unselectable = "off";
+      copyDiv.focus();
+      document.execCommand('SelectAll');
+      document.execCommand("Copy", false, null);
+      return document.body.removeChild(copyDiv);
     };
 
     return ColorsView;

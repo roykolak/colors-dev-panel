@@ -140,12 +140,28 @@ class ColorsView extends Backbone.View
       </ol>
     """
 
+  events:
+    "click .copy": "onCopyClicked"
+
   initialize: (options) ->
     @colors = options.colors
 
   render: ->
     @$el.html Mustache.render @template, colors: @colors
     this
+
+  onCopyClicked: (ev) ->
+    ev.preventDefault()
+    $el = $(ev.currentTarget)
+    copyDiv = document.createElement('div')
+    copyDiv.contentEditable = true
+    document.body.appendChild(copyDiv)
+    copyDiv.innerHTML = $el.data('color')
+    copyDiv.unselectable = "off"
+    copyDiv.focus()
+    document.execCommand('SelectAll')
+    document.execCommand("Copy", false, null)
+    document.body.removeChild(copyDiv)
 
 class SchemaView extends Backbone.View
   template:
