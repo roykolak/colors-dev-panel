@@ -87,10 +87,10 @@ input[type=range] {
 }
 .profile .formats {
   position: absolute;
-  bottom: 0;
+  bottom: -1px;
   left: 0;
   width: 100%;
-  height: 90px;
+  height: 70px;
   background: rgba(255,255,255, 0.7);
 }
 .profile dl {

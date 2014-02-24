@@ -104,6 +104,15 @@
         _results.push(color.toString());
       }
       return _results;
+    },
+    toHexCSS: function(hex) {
+      return Color(hex).hexString();
+    },
+    toRgbCSS: function(hex) {
+      return Color(hex).rgbString();
+    },
+    toHslCSS: function(hex) {
+      return Color(hex).hslString();
     }
   };
 

@@ -43,3 +43,12 @@ Panel.Lib.Color =
 
   sixTone: (hex) ->
     (color.toString() for color in @Color(hex).sixToneCWScheme())
+
+  toHexCSS: (hex) ->
+    Color(hex).hexString()
+
+  toRgbCSS: (hex) ->
+    Color(hex).rgbString()
+
+  toHslCSS: (hex) ->
+    Color(hex).hslString()
