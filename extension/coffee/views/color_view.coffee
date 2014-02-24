@@ -12,7 +12,7 @@ class Panel.Views.ColorView extends Backbone.View
         </div>
       </div>
       <div class="color_inputs">
-        <input type="text" class="hex_input" placeholder="hex" />
+        <input type="text" class="hex_input" placeholder="#CCCCCC" />
         <input type="color" class="color_picker" />
       </div>
     """

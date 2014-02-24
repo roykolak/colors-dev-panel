@@ -63,7 +63,7 @@ input[type=range] {
   top: 0;
   z-index: 10;
   width: 100%;
-  border-bottom: 1px solid #929292;
+  border-bottom: 1px solid #AAA;
 }
 .tabs li {
   display: inline-block;
@@ -76,7 +76,7 @@ input[type=range] {
 }
 .tabs .selected {
   background: #FFF;
-  border: 1px solid #929292;
+  border: 1px solid #AAA;
 }
 #tab_content {
   margin-top: 25px;

@@ -11,7 +11,7 @@
       return ColorView.__super__.constructor.apply(this, arguments);
     }
 
-    ColorView.prototype.template = "<div class=\"profile\">\n  <div class=\"swatch\" style=\"background: {{color}}\"></div>\n  <div class=\"formats\">\n    <dl>\n      <dd>{{hex}}</dd>\n      <dd>{{rgb}}</dd>\n      <dd>{{hsl}}</dd>\n    </dl>\n  </div>\n</div>\n<div class=\"color_inputs\">\n  <input type=\"text\" class=\"hex_input\" placeholder=\"hex\" />\n  <input type=\"color\" class=\"color_picker\" />\n</div>";
+    ColorView.prototype.template = "<div class=\"profile\">\n  <div class=\"swatch\" style=\"background: {{color}}\"></div>\n  <div class=\"formats\">\n    <dl>\n      <dd>{{hex}}</dd>\n      <dd>{{rgb}}</dd>\n      <dd>{{hsl}}</dd>\n    </dl>\n  </div>\n</div>\n<div class=\"color_inputs\">\n  <input type=\"text\" class=\"hex_input\" placeholder=\"#CCCCCC\" />\n  <input type=\"color\" class=\"color_picker\" />\n</div>";
 
     ColorView.prototype.events = {
       "input .color_picker": "onColorPickerClick",
