@@ -11,7 +11,12 @@
       return ColorView.__super__.constructor.apply(this, arguments);
     }
 
-    ColorView.prototype.template = "<div class=\"profile\">\n  <div class=\"swatch\" style=\"background: {{color}}\"></div>\n  <div class=\"formats\">\n    <dl>\n      <dd>{{hex}}</dd>\n      <dd>{{rgb}}</dd>\n      <dd>{{hsl}}</dd>\n    </dl>\n  </div>\n</div>";
+    ColorView.prototype.template = "<div class=\"profile\">\n  <div class=\"swatch\" style=\"background: {{color}}\"></div>\n  <div class=\"formats\">\n    <dl>\n      <dd>{{hex}}</dd>\n      <dd>{{rgb}}</dd>\n      <dd>{{hsl}}</dd>\n    </dl>\n  </div>\n</div>\n<div class=\"color_inputs\">\n  <input type=\"text\" class=\"hex_input\" placeholder=\"hex\" />\n  <input type=\"color\" class=\"color_picker\" />\n</div>";
+
+    ColorView.prototype.events = {
+      "input .color_picker": "onColorPickerClick",
+      "keyup .hex_input": "onHexInput"
+    };
 
     ColorView.prototype.initialize = function() {
       return this.model.on('change:color', this.render, this);
@@ -27,6 +32,24 @@
       });
       this.$el.html(Mustache.render(this.template, properties));
       return this;
+    };
+
+    ColorView.prototype.onColorPickerClick = function(ev) {
+      ev.preventDefault();
+      return this.model.set({
+        color: $(ev.currentTarget).val()
+      });
+    };
+
+    ColorView.prototype.onHexInput = function(ev) {
+      var value;
+      ev.preventDefault();
+      value = $(ev.currentTarget).val();
+      if (value.length === 7) {
+        return this.model.set({
+          color: value
+        });
+      }
     };
 
     return ColorView;

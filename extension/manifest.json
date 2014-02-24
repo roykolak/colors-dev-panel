@@ -2,7 +2,7 @@
   "name": "Colors dev panel",
   "version": "0.0.1",
   "manifest_version": 2,
-  "description": "Color controls, right in your dev console",
+  "description": "Colors, in your dev inspector",
   "minimum_chrome_version": "29",
   "devtools_page": "devtools.html",
   "background": {

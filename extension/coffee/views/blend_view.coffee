@@ -4,7 +4,7 @@ class Panel.Views.BlendView extends Backbone.View
       <div class="range_colors"></div>
       <div class="range_controls">
         <input type="color" class="color_picker" id="color_picker" value="{{blendColor}}">
-        <input type="range" id="steps" min="3" max="200" value="{{steps}}">
+        <input type="range" id="steps" class="steps" min="3" max="200" value="{{steps}}">
         <span><span class="steps">{{steps}}</span> steps</span>
       </div>
     """

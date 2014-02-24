@@ -49,11 +49,12 @@ input[type=range] {
   top: 0;
   left: 0;
   box-sizing: border-box;
+  border-right: 1px solid #CCC;
 }
 .main {
   position: relative;
-  margin-left: 200px;
-  border-left: 1px solid #CCC;
+  margin-left: 198px;
+  width: 100%;
 }
 .tabs {
   background: #E7E7E7;
@@ -80,6 +81,7 @@ input[type=range] {
 #tab_content {
   margin-top: 25px;
   padding: 10px;
+  box-sizing: border-box;
 }
 .swatch {
   width: 100%;
@@ -88,7 +90,7 @@ input[type=range] {
 }
 .profile .formats {
   position: absolute;
-  bottom: -1px;
+  bottom: 35px;
   left: 0;
   width: 100%;
   height: 70px;
@@ -129,10 +131,12 @@ li:hover .copy {
   position: fixed;
   bottom: 0px;
   background: #E6E6E6;
-  border-top: 1px solid #CCC;
   padding: 5px 10px;
   right: 0px;
-  left: 200px;
+  left: 198px;
+}
+input.steps {
+  width: 50%;
 }
 .color_picker {
   float: right;
@@ -155,4 +159,16 @@ li:hover .copy {
 }
 .palette_controls .reload {
   float: right;
+}
+.color_inputs {
+  position: fixed;
+  bottom: 0px;
+  padding: 10px;
+  background: #FFF;
+  left: 0;
+  width: 177px;
+}
+.color_inputs input[type=text] {
+  width: 120px;
+  font-size: 12px;
 }

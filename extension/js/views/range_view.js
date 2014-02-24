@@ -11,7 +11,7 @@
       return RangeView.__super__.constructor.apply(this, arguments);
     }
 
-    RangeView.prototype.template = "<div class=\"range_colors\"></div>\n<div class=\"range_controls\">\n  <input type=\"range\" id=\"steps\" min=\"3\" max=\"200\" value=\"{{steps}}\">\n  <span><span class=\"steps\">{{steps}}</span> steps</span>\n</div>";
+    RangeView.prototype.template = "<div class=\"range_colors\"></div>\n<div class=\"range_controls\">\n  <input type=\"range\" id=\"steps\" class=\"steps\" min=\"3\" max=\"200\" value=\"{{steps}}\">\n  <span><span class=\"steps\">{{steps}}</span> steps</span>\n</div>";
 
     RangeView.prototype.events = {
       "input #steps": "onStepsChange"
