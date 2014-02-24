@@ -11,15 +11,7 @@ class Panel.Views.ColorView extends Backbone.View
           </dl>
         </div>
       </div>
-      <div class="color_inputs">
-        <input type="text" class="hex_input" placeholder="#CCCCCC" />
-        <input type="color" class="color_picker" />
-      </div>
     """
-
-  events:
-    "input .color_picker": "onColorPickerClick"
-    "keyup .hex_input": "onHexInput"
 
   initialize: ->
     @model.on 'change:color', @render, @
@@ -32,12 +24,3 @@ class Panel.Views.ColorView extends Backbone.View
       hsl: Panel.Lib.Color.toHslCSS color
     @$el.html Mustache.render @template, properties
     this
-
-  onColorPickerClick: (ev) ->
-    ev.preventDefault()
-    @model.set color: $(ev.currentTarget).val()
-
-  onHexInput: (ev) ->
-    ev.preventDefault()
-    value = $(ev.currentTarget).val()
-    @model.set color: value if value.length == 7

@@ -16,6 +16,12 @@ li {
 }
 input[type=range] {
   width: 230px;
+  margin: 5px 10px 0 0;
+}
+.range_label {
+  display: inline-block;
+  top: -3px;
+  position: relative;
 }
 .colors {
   margin: 2px;

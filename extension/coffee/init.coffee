@@ -8,6 +8,9 @@ $ ->
   colorView = new Panel.Views.ColorView model: model
   $('.side').html colorView.render().el
 
+  colorControlsView = new Panel.Views.ColorControlsView model: model
+  $('.side').append colorControlsView.render().el
+
   tabView = new Panel.Views.TabView model: model
   tabView.on 'selection', (selection) ->
     view = switch selection
