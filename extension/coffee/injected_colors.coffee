@@ -1,10 +1,11 @@
 chrome.extension.onMessage.addListener (message, sender) ->
-  colors = []
+  if message == 'fetch_palette'
+    colors = []
 
-  for el in document.body.querySelectorAll('*')
-    if el.style.color && el.style.color != 'transparent'
-      colors.push el.style.color if colors.indexOf(el.style.color) == -1
-    if el.style.backgroundColor && el.style.backgroundColor != 'transparent'
-      colors.push el.style.backgroundColor if colors.indexOf(el.style.backgroundColor) == -1
+    for el in document.body.querySelectorAll('*')
+      for prop in ['color', 'backgroundColor']
+        color = window.getComputedStyle(el)[prop]
+        if color && color != 'transparent' && colors.indexOf(color) == -1
+          colors.push color
 
-  chrome.extension.sendMessage colors
+    chrome.extension.sendMessage colors

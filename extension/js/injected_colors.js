@@ -2,23 +2,23 @@
 (function() {
 
   chrome.extension.onMessage.addListener(function(message, sender) {
-    var colors, el, _i, _len, _ref;
-    colors = [];
-    _ref = document.body.querySelectorAll('*');
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      el = _ref[_i];
-      if (el.style.color && el.style.color !== 'transparent') {
-        if (colors.indexOf(el.style.color) === -1) {
-          colors.push(el.style.color);
+    var color, colors, el, prop, _i, _j, _len, _len1, _ref, _ref1;
+    if (message === 'fetch_palette') {
+      colors = [];
+      _ref = document.body.querySelectorAll('*');
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        el = _ref[_i];
+        _ref1 = ['color', 'backgroundColor'];
+        for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+          prop = _ref1[_j];
+          color = window.getComputedStyle(el)[prop];
+          if (color && color !== 'transparent' && colors.indexOf(color) === -1) {
+            colors.push(color);
+          }
         }
       }
-      if (el.style.backgroundColor && el.style.backgroundColor !== 'transparent') {
-        if (colors.indexOf(el.style.backgroundColor) === -1) {
-          colors.push(el.style.backgroundColor);
-        }
-      }
+      return chrome.extension.sendMessage(colors);
     }
-    return chrome.extension.sendMessage(colors);
   });
 
 }).call(this);

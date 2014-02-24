@@ -11,7 +11,7 @@
       return TabView.__super__.constructor.apply(this, arguments);
     }
 
-    TabView.prototype.template = "<ul class=\"tabs\">\n  <li class=\"selected\" data-tab=\"lighten\">\n    <a href=\"#\">Lighten</a>\n  </li>\n  <li data-tab=\"darken\">\n    <a href=\"#\">Darken</a>\n  </li>\n  <li data-tab=\"saturate\">\n    <a href=\"#\">Saturate</a>\n  </li>\n  <li data-tab=\"desaturate\">\n    <a href=\"#\">Desaturate</a>\n  </li>\n  <li data-tab=\"blend\">\n    <a href=\"#\">Blend</a>\n  </li>\n  <li data-tab=\"schemas\">\n    <a href=\"#\">Schemas</a>\n  </li>\n</ul>\n<div id=\"tab_content\" style=\"overflow: scroll\"></div>";
+    TabView.prototype.template = "<ul class=\"tabs\">\n  <li class=\"selected\" data-tab=\"palette\">\n    <a href=\"#\">Palette</a>\n  </li>\n  <li data-tab=\"lighten\">\n    <a href=\"#\">Lighten</a>\n  </li>\n  <li data-tab=\"darken\">\n    <a href=\"#\">Darken</a>\n  </li>\n  <li data-tab=\"saturate\">\n    <a href=\"#\">Saturate</a>\n  </li>\n  <li data-tab=\"desaturate\">\n    <a href=\"#\">Desaturate</a>\n  </li>\n  <li data-tab=\"blend\">\n    <a href=\"#\">Blend</a>\n  </li>\n  <li data-tab=\"schemas\">\n    <a href=\"#\">Schemas</a>\n  </li>\n</ul>\n<div id=\"tab_content\" style=\"overflow: scroll\"></div>";
 
     TabView.prototype.events = {
       "click li": "onItemClick"
@@ -19,7 +19,7 @@
 
     TabView.prototype.render = function() {
       this.$el.html(Mustache.render(this.template));
-      this.trigger('selection', 'lighten');
+      this.trigger('selection', 'palette');
       return this;
     };
 

@@ -2,26 +2,25 @@ model = new Backbone.Model
   color: '#4573D5'
   steps: 40
   blendColor: '#D54545'
-  sitePalette: ['#CCC']
+  palette: []
 
 if chrome.runtime?
   port = chrome.runtime.connect()
 
-  port.postMessage("Request Tab Data")
+  port.postMessage("fetch_palette")
   port.onMessage.addListener (msg) ->
-    model.set sitePalette: msg
+    model.set palette: msg
 
 $ ->
 
   colorView = new Panel.Views.ColorView model: model
   $('.side').html colorView.render().el
 
-  sitePaletteView = new Panel.Views.SitePaletteView model: model
-  $('.side').prepend sitePaletteView.render().el
-
   tabView = new Panel.Views.TabView model: model
   tabView.on 'selection', (selection) ->
     view = switch selection
+      when 'palette'
+        new Panel.Views.PaletteView(model: @model)
       when 'schemas'
         new Panel.Views.SchemaView(model: @model)
       when 'blend'

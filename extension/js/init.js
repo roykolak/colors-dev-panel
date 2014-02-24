@@ -6,29 +6,25 @@
     color: '#4573D5',
     steps: 40,
     blendColor: '#D54545',
-    sitePalette: ['#CCC']
+    palette: []
   });
 
   if (chrome.runtime != null) {
     port = chrome.runtime.connect();
-    port.postMessage("Request Tab Data");
+    port.postMessage("fetch_palette");
     port.onMessage.addListener(function(msg) {
       return model.set({
-        sitePalette: msg
+        palette: msg
       });
     });
   }
 
   $(function() {
-    var colorView, sitePaletteView, tabView;
+    var colorView, tabView;
     colorView = new Panel.Views.ColorView({
       model: model
     });
     $('.side').html(colorView.render().el);
-    sitePaletteView = new Panel.Views.SitePaletteView({
-      model: model
-    });
-    $('.side').prepend(sitePaletteView.render().el);
     tabView = new Panel.Views.TabView({
       model: model
     });
@@ -36,6 +32,10 @@
       var view;
       view = (function() {
         switch (selection) {
+          case 'palette':
+            return new Panel.Views.PaletteView({
+              model: this.model
+            });
           case 'schemas':
             return new Panel.Views.SchemaView({
               model: this.model

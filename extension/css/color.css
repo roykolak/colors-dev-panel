@@ -40,7 +40,7 @@ input[type=range] {
   margin-right: 2px;
 }
 .side {
-  width: 180px;
+  width: 198px;
   padding: 10px;
   background: #FFF;
   position: fixed;
@@ -48,6 +48,7 @@ input[type=range] {
   height: 100%;
   top: 0;
   left: 0;
+  box-sizing: border-box;
 }
 .main {
   position: relative;
