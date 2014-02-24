@@ -79,6 +79,7 @@ input[type=range] {
 }
 #tab_content {
   margin-top: 25px;
+  padding: 10px;
 }
 .swatch {
   width: 100%;
@@ -146,4 +147,12 @@ li:hover .copy {
   display: block;
   width: 20px;
   height: 20px;
+}
+.palette_controls {
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #CCC;
+}
+.palette_controls .reload {
+  float: right;
 }

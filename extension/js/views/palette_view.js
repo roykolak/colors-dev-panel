@@ -11,14 +11,35 @@
       return PaletteView.__super__.constructor.apply(this, arguments);
     }
 
-    PaletteView.prototype.template = "<div class=\"range_colors\"></div>";
+    PaletteView.prototype.template = "<div class=\"palette_controls\">\n  Found <span class=\"amount\">{{amount}}</span> unique colors on the current page\n  <a href=\"#\" class=\"reload\">Reload palette</a>\n</div>\n<div class=\"range_colors\"></div>";
+
+    PaletteView.prototype.events = {
+      "click .reload": "onReloadClick"
+    };
 
     PaletteView.prototype.initialize = function() {
-      return this.model.on('change:palette', this.render, this);
+      this.model.on('change:palette', this.render, this);
+      return this.fetchPalette();
+    };
+
+    PaletteView.prototype.fetchPalette = function() {
+      var port,
+        _this = this;
+      if (chrome.runtime != null) {
+        port = chrome.runtime.connect();
+        port.postMessage("fetch_palette");
+        return port.onMessage.addListener(function(msg) {
+          return _this.model.set({
+            palette: msg
+          });
+        });
+      }
     };
 
     PaletteView.prototype.render = function() {
-      this.$el.html(Mustache.render(this.template, this.model.toJSON()));
+      this.$el.html(Mustache.render(this.template, _.extend({}, this.model.toJSON(), {
+        amount: this.model.get('palette').length
+      })));
       this.renderColors();
       return this;
     };
@@ -30,6 +51,14 @@
         colors: this.model.get('palette')
       });
       return this.$('.range_colors').html(colorsView.render().el);
+    };
+
+    PaletteView.prototype.onReloadClick = function(ev) {
+      ev.preventDefault();
+      this.model.set({
+        palette: []
+      });
+      return this.fetchPalette();
     };
 
     return PaletteView;

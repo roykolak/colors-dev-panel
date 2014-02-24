@@ -4,15 +4,7 @@ model = new Backbone.Model
   blendColor: '#D54545'
   palette: []
 
-if chrome.runtime?
-  port = chrome.runtime.connect()
-
-  port.postMessage("fetch_palette")
-  port.onMessage.addListener (msg) ->
-    model.set palette: msg
-
 $ ->
-
   colorView = new Panel.Views.ColorView model: model
   $('.side').html colorView.render().el
 
