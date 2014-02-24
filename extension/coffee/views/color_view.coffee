@@ -5,11 +5,8 @@ class Panel.Views.ColorView extends Backbone.View
         <div class="swatch" style="background: {{color}}"></div>
         <div class="formats">
           <dl>
-            <dt>HEX</dt>
-            <dd>{{color}}</dd>
-            <dt>RGB</dt>
+            <dd>{{hex}}</dd>
             <dd>{{rgb}}</dd>
-            <dt>HSL</dt>
             <dd>{{hsl}}</dd>
           </dl>
         </div>
@@ -22,6 +19,7 @@ class Panel.Views.ColorView extends Backbone.View
   render: ->
     color = @model.get('color')
     properties = _.extend {}, @model.toJSON(),
+      hex: Panel.Lib.Color.toHexCSS color
       rgb: Panel.Lib.Color.toRgbCSS color
       hsl: Panel.Lib.Color.toHslCSS color
     @$el.html Mustache.render @template, properties

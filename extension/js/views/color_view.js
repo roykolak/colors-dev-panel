@@ -11,7 +11,7 @@
       return ColorView.__super__.constructor.apply(this, arguments);
     }
 
-    ColorView.prototype.template = "<div class=\"profile\">\n  <div class=\"swatch\" style=\"background: {{color}}\"></div>\n  <div class=\"formats\">\n    <dl>\n      <dt>HEX</dt>\n      <dd>{{color}}</dd>\n      <dt>RGB</dt>\n      <dd>{{rgb}}</dd>\n      <dt>HSL</dt>\n      <dd>{{hsl}}</dd>\n    </dl>\n  </div>\n</div>";
+    ColorView.prototype.template = "<div class=\"profile\">\n  <div class=\"swatch\" style=\"background: {{color}}\"></div>\n  <div class=\"formats\">\n    <dl>\n      <dd>{{hex}}</dd>\n      <dd>{{rgb}}</dd>\n      <dd>{{hsl}}</dd>\n    </dl>\n  </div>\n</div>";
 
     ColorView.prototype.initialize = function() {
       return this.model.on('change:color', this.render, this);
@@ -21,6 +21,7 @@
       var color, properties;
       color = this.model.get('color');
       properties = _.extend({}, this.model.toJSON(), {
+        hex: Panel.Lib.Color.toHexCSS(color),
         rgb: Panel.Lib.Color.toRgbCSS(color),
         hsl: Panel.Lib.Color.toHslCSS(color)
       });

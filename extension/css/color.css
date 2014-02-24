@@ -102,7 +102,7 @@ input[type=range] {
 }
 .profile dd {
   display: inline-block;
-  width: 110px;
+  width: 100%;
 }
 .profile dt, .profile dd {
   padding: 3px 0;
