@@ -1,7 +1,7 @@
-chrome.runtime.onConnect.addListener (devToolsConnection) ->
-  devToolsListener = (message, sender, sendResponse) ->
-    console.log message
-    chrome.tabs.executeScript message.tabId, file: message.scriptToInject
+chrome.extension.onConnect.addListener (port) ->
+  port.onMessage.addListener (message) ->
+    chrome.tabs.query currentWindow: true, active: true, (tabs) ->
+      chrome.tabs.sendMessage(tabs[0].id, message)
 
-  devToolsConnection.onMessage.addListener(devToolsListener)
-console.log 'yo'
+  chrome.extension.onMessage.addListener (message, sender) ->
+    port.postMessage(message)
