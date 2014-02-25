@@ -18,6 +18,10 @@
       "keyup .hex_input": "onHexInput"
     };
 
+    ColorControlsView.prototype.initialize = function() {
+      return this.model.on('change:color', this.updateHaxInput, this);
+    };
+
     ColorControlsView.prototype.render = function() {
       this.$el.html(Mustache.render(this.template));
       return this;
@@ -25,9 +29,7 @@
 
     ColorControlsView.prototype.onColorPickerClick = function(ev) {
       return this.model.set({
-        color: $(ev.currentTarget).val(),
-        rangeStart: $(ev.currentTarget).val(),
-        syncColor: null
+        color: $(ev.currentTarget).val()
       });
     };
 
@@ -37,11 +39,13 @@
       value = $(ev.currentTarget).val();
       if (value.length === 7) {
         return this.model.set({
-          color: value,
-          rangeStart: value,
-          syncColor: null
+          color: value
         });
       }
+    };
+
+    ColorControlsView.prototype.updateHaxInput = function() {
+      return this.$('.hex_input').val(Panel.Lib.Color.toHexCSS(this.model.get('color')));
     };
 
     return ColorControlsView;

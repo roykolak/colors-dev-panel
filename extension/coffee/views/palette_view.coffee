@@ -6,6 +6,7 @@ class Panel.Views.PaletteView extends Backbone.View
           <a href="#">Page Colors</a>
         </li>
       </ul>
+      <p class="palette_instructions">Select colors to modify on page</p>
       <div class="range_colors"></div>
     """
 
@@ -31,16 +32,22 @@ class Panel.Views.PaletteView extends Backbone.View
     colorsView = new Panel.Views.ColorsView
       model: @model
       colors: @model.get('palette')
+
     colorsView.on 'select', (color, $el) =>
       @model.set
         color: color
         syncColor: color
         rangeStart: color
       colorsView.$('.selected').removeClass('selected')
+      @$('.range_colors li').css opacity: 0.2
       $el.addClass('selected')
+      $el.parent().css opacity: 1
+
     colorsView.on 'unselect', (color, $el) =>
-      @model.unset syncColor: color
+      @model.unset 'syncColor'
       colorsView.$('.selected').removeClass('selected')
+      @$('.range_colors li').css(opacity: 1)
+
     @$('.range_colors').html colorsView.render().el
 
   onReloadClick: (ev) ->

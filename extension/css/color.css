@@ -39,8 +39,8 @@ input[type=range] {
   height: 100%;
 }
 .colors a.selected {
-  box-shadow: 0 0 3px 3px #CCC;
   border: 1px solid #000;
+  box-sizing: border-box;
 }
 .profile {
   width: 100%;
@@ -154,7 +154,11 @@ input.steps {
 }
 .palette {
   margin-bottom: 5px;
-
+}
+.palette_instructions {
+  margin: 32px 10px 0px;
+  font-size: 11px;
+  color: #444;
 }
 .palette li {
   display: inline-block;
@@ -197,7 +201,6 @@ input.steps {
   border-right: 1px solid #AAA;
 }
 .middle .range_colors {
-  margin-top: 25px;
   padding: 10px;
 }
 .middle .range_colors li {

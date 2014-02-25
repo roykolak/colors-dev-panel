@@ -11,7 +11,7 @@
       return PaletteView.__super__.constructor.apply(this, arguments);
     }
 
-    PaletteView.prototype.template = "<ul class=\"tabs\">\n  <li class=\"selected\">\n    <a href=\"#\">Page Colors</a>\n  </li>\n</ul>\n<div class=\"range_colors\"></div>";
+    PaletteView.prototype.template = "<ul class=\"tabs\">\n  <li class=\"selected\">\n    <a href=\"#\">Page Colors</a>\n  </li>\n</ul>\n<p class=\"palette_instructions\">Select colors to modify on page</p>\n<div class=\"range_colors\"></div>";
 
     PaletteView.prototype.initialize = function() {
       this.model.on('change:palette', this.render, this);
@@ -57,13 +57,20 @@
           rangeStart: color
         });
         colorsView.$('.selected').removeClass('selected');
-        return $el.addClass('selected');
+        _this.$('.range_colors li').css({
+          opacity: 0.2
+        });
+        $el.addClass('selected');
+        return $el.parent().css({
+          opacity: 1
+        });
       });
       colorsView.on('unselect', function(color, $el) {
-        _this.model.unset({
-          syncColor: color
+        _this.model.unset('syncColor');
+        colorsView.$('.selected').removeClass('selected');
+        return _this.$('.range_colors li').css({
+          opacity: 1
         });
-        return colorsView.$('.selected').removeClass('selected');
       });
       return this.$('.range_colors').html(colorsView.render().el);
     };

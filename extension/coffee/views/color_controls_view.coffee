@@ -11,6 +11,9 @@ class Panel.Views.ColorControlsView extends Backbone.View
     "input .color_picker": "onColorPickerClick"
     "keyup .hex_input": "onHexInput"
 
+  initialize: ->
+    @model.on 'change:color', @updateHaxInput, @
+
   render: ->
     @$el.html Mustache.render @template
     this
@@ -18,14 +21,12 @@ class Panel.Views.ColorControlsView extends Backbone.View
   onColorPickerClick: (ev) ->
     @model.set
       color: $(ev.currentTarget).val()
-      rangeStart: $(ev.currentTarget).val()
-      syncColor: null
 
   onHexInput: (ev) ->
     ev.preventDefault()
     value = $(ev.currentTarget).val()
     if value.length == 7
-      @model.set
-        color: value
-        rangeStart: value
-        syncColor: null
+      @model.set color: value
+
+  updateHaxInput: ->
+    @$('.hex_input').val Panel.Lib.Color.toHexCSS(@model.get('color'))
