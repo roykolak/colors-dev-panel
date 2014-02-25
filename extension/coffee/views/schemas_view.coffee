@@ -31,4 +31,8 @@ class Panel.Views.SchemaView extends Backbone.View
       view = new Panel.Views.ColorsView
         model: @model
         colors: Panel.Lib.Color[schema](color)
+
+      view.on 'select', (color) =>
+        @model.set color: color
+
       @$(".#{schema}").html view.render().el

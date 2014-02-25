@@ -24,7 +24,8 @@
     };
 
     SchemaView.prototype.renderColors = function() {
-      var color, schema, view, _i, _len, _ref, _results;
+      var color, schema, view, _i, _len, _ref, _results,
+        _this = this;
       color = this.model.get('color');
       _ref = ['complementary', 'triadic', 'analogous', 'sixTone', 'neutral', 'tetradic'];
       _results = [];
@@ -33,6 +34,11 @@
         view = new Panel.Views.ColorsView({
           model: this.model,
           colors: Panel.Lib.Color[schema](color)
+        });
+        view.on('select', function(color) {
+          return _this.model.set({
+            color: color
+          });
         });
         _results.push(this.$("." + schema).html(view.render().el));
       }
