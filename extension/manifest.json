@@ -1,6 +1,6 @@
 {
   "name": "Colors dev panel",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "manifest_version": 2,
   "description": "Colors, in your dev inspector",
   "minimum_chrome_version": "29",
