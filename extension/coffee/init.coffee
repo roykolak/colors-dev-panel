@@ -3,7 +3,7 @@ model = new Backbone.Model
   rangeStart: '#4573D5'
   steps: 40
   blendColor: '#D54545'
-  palette: ['#CCC']
+  palette: []
 
 model.on 'change:color', ->
   if model.get('syncColor')

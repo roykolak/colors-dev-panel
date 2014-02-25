@@ -11,7 +11,7 @@
       return PaletteView.__super__.constructor.apply(this, arguments);
     }
 
-    PaletteView.prototype.template = "<ul class=\"tabs\">\n  <li class=\"selected\">\n    <a href=\"#\">Page Colors</a>\n  </li>\n</ul>\n<a href=\"#\" class=\"fetch_colors\">Reload</a>\n<p class=\"palette_instructions\">Select color to modify on page</p>\n<div class=\"range_colors\"></div>";
+    PaletteView.prototype.template = "<ul class=\"tabs\">\n  <li class=\"selected\">\n    <a href=\"#\">Page Colors</a>\n  </li>\n</ul>\n<a href=\"#\" class=\"fetch_colors\">Reload</a>\n<p class=\"palette_instructions\">Select color to modify on page</p>\n<div class=\"range_colors\">loading</div>";
 
     PaletteView.prototype.events = {
       "click .fetch_colors": "onFetchColorsClick"

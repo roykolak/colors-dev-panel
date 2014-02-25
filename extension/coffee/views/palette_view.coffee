@@ -8,7 +8,7 @@ class Panel.Views.PaletteView extends Backbone.View
       </ul>
       <a href="#" class="fetch_colors">Reload</a>
       <p class="palette_instructions">Select color to modify on page</p>
-      <div class="range_colors"></div>
+      <div class="range_colors">loading</div>
     """
 
   events:
