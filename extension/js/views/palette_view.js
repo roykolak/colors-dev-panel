@@ -52,7 +52,9 @@
         _this = this;
       colorsView = new Panel.Views.ColorsView({
         model: this.model,
-        colors: this.model.get('palette')
+        colors: this.model.get('palette'),
+        draggable: false,
+        droppable: true
       });
       colorsView.on('select', function(color, $el) {
         _this.model.set({
@@ -65,7 +67,7 @@
           opacity: 0.2
         });
         $el.addClass('selected');
-        return $el.parent().css({
+        return $el.css({
           opacity: 1
         });
       });
@@ -88,9 +90,16 @@
     };
 
     PaletteView.prototype.onSyncColorChange = function() {
-      if (this.model.get('syncColor') == null) {
-        return $('.range_colors .selected').removeClass('selected');
-      }
+      var $el;
+      this.$('.range_colors .selected').removeClass('selected');
+      this.$('.range_colors li').css({
+        opacity: 0.2
+      });
+      $el = this.$("li[data-color='" + (this.model.get('syncColor')) + "']");
+      $el.addClass('selected');
+      return $el.css({
+        opacity: 1
+      });
     };
 
     PaletteView.prototype.onFetchColorsClick = function(ev) {

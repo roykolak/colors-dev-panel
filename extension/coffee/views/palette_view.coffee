@@ -36,6 +36,8 @@ class Panel.Views.PaletteView extends Backbone.View
     colorsView = new Panel.Views.ColorsView
       model: @model
       colors: @model.get('palette')
+      draggable: false
+      droppable: true
 
     colorsView.on 'select', (color, $el) =>
       @model.set
@@ -45,7 +47,7 @@ class Panel.Views.PaletteView extends Backbone.View
       colorsView.$('.selected').removeClass('selected')
       @$('.range_colors li').css opacity: 0.2
       $el.addClass('selected')
-      $el.parent().css opacity: 1
+      $el.css opacity: 1
 
     colorsView.on 'unselect', (color, $el) =>
       @model.unset 'syncColor'
@@ -60,8 +62,11 @@ class Panel.Views.PaletteView extends Backbone.View
     @fetchPalette()
 
   onSyncColorChange: ->
-    unless @model.get('syncColor')?
-      $('.range_colors .selected').removeClass('selected')
+    @$('.range_colors .selected').removeClass('selected')
+    @$('.range_colors li').css opacity: 0.2
+    $el = @$("li[data-color='#{@model.get('syncColor')}']")
+    $el.addClass('selected')
+    $el.css opacity: 1
 
   onFetchColorsClick: (ev) ->
     ev.preventDefault()

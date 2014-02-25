@@ -11,23 +11,71 @@
       return ColorsView.__super__.constructor.apply(this, arguments);
     }
 
-    ColorsView.prototype.template = "<ol class=\"colors\">\n  {{#colors}}\n    <li style=\"background: {{.}}\">\n      <a href=\"#\" data-color=\"{{.}}\" class=\"color\"></a>\n      <a href=\"#\" data-color=\"{{.}}\" title=\"copy to clipboard\" class=\"fa fa-copy copy\"></a>\n    </li>\n  {{/colors}}\n</ol>";
+    ColorsView.prototype.template = "<ol class=\"colors {{#syncColor}}syncing{{/syncColor}}\">\n  {{#colors}}\n    <li style=\"background: {{.}}\" data-color=\"{{.}}\" draggable=\"true\">\n      <a href=\"#\" data-color=\"{{.}}\" title=\"copy to clipboard\" class=\"fa fa-copy copy\"></a>\n    </li>\n  {{/colors}}\n</ol>";
 
     ColorsView.prototype.events = {
       "click .copy": "onCopyClicked",
-      "click .color": "onColorClicked"
+      "click li": "onColorClicked"
     };
 
     ColorsView.prototype.initialize = function(options) {
-      return this.colors = options.colors;
+      this.colors = options.colors;
+      this.draggable = options.draggable || true;
+      return this.droppable = options.droppable || false;
     };
 
     ColorsView.prototype.render = function() {
-      var properties;
+      var handleDragEnd, handleDragStart, properties,
+        _this = this;
       properties = _.extend({}, this.model.toJSON(), {
         colors: this.colors
       });
       this.$el.html(Mustache.render(this.template, properties));
+      if (this.draggable) {
+        handleDragStart = function(ev) {
+          var $el;
+          ev.stopPropagation();
+          $el = $(ev.currentTarget);
+          $el.addClass('dragging');
+          return ev.dataTransfer.setData('application/json', JSON.stringify({
+            color: $el.data('color')
+          }));
+        };
+        handleDragEnd = function(ev) {
+          var $el;
+          $el = $(ev.currentTarget);
+          return $el.removeClass('dragging');
+        };
+        this.$('li').each(function(i, el) {
+          el.addEventListener('dragstart', handleDragStart, false);
+          return el.addEventListener('dragend', handleDragEnd, false);
+        });
+      }
+      if (this.droppable) {
+        this.$('li').each(function(i, $el) {
+          $el.addEventListener('dragenter', function(ev) {
+            return $(ev.currentTarget).addClass('over');
+          }, false);
+          $el.addEventListener('dragleave', function(ev) {
+            return $(ev.currentTarget).removeClass('over');
+          }, false);
+          $el.addEventListener('dragover', function(ev) {
+            ev.preventDefault();
+            return ev.dataTransfer.effect = 'move';
+          }, false);
+          return $el.addEventListener('drop', function(ev) {
+            var draggedData;
+            $el = $(ev.currentTarget);
+            ev.stopPropagation();
+            draggedData = JSON.parse(ev.dataTransfer.getData('application/json'));
+            return _this.model.set({
+              syncColor: $el.data('color'),
+              color: draggedData.color,
+              rangeStart: draggedData.color
+            });
+          }, false);
+        });
+      }
       return this;
     };
 
