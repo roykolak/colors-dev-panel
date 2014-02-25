@@ -1,7 +1,7 @@
 {
   "name": "colors-dev-panel",
   "description": "Colors dev panel for Chrome",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "author": "Roy Kolak <roy.kolak@gmail.com>",
   "scripts": {
     "start": "node_modules/.bin/coffee -w -o extension/js extension/coffee"
