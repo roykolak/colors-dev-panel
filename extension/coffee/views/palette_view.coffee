@@ -6,9 +6,13 @@ class Panel.Views.PaletteView extends Backbone.View
           <a href="#">Page Colors</a>
         </li>
       </ul>
-      <p class="palette_instructions">Select colors to modify on page</p>
+      <a href="#" class="fetch_colors">Reload</a>
+      <p class="palette_instructions">Select color to modify on page</p>
       <div class="range_colors"></div>
     """
+
+  events:
+    "click .fetch_colors": "onFetchColorsClick"
 
   initialize: ->
     @model.on 'change:palette', @render, @
@@ -58,3 +62,7 @@ class Panel.Views.PaletteView extends Backbone.View
   onSyncColorChange: ->
     unless @model.get('syncColor')?
       $('.range_colors .selected').removeClass('selected')
+
+  onFetchColorsClick: (ev) ->
+    ev.preventDefault()
+    @fetchPalette()
