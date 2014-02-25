@@ -146,10 +146,11 @@ li:hover .copy {
   left: 401px;
 }
 input.steps {
-  width: 100%;
+  width: 85%;
 }
 .color_picker {
-  float: right;
+  position: absolute;
+  right: 10px;
 }
 .palette {
   margin-bottom: 5px;
