@@ -28,9 +28,16 @@
     };
 
     ColorControlsView.prototype.onColorPickerClick = function(ev) {
-      return this.model.set({
-        color: $(ev.currentTarget).val()
+      var value;
+      value = $(ev.currentTarget).val();
+      this.model.set({
+        color: value
       });
+      if (!this.model.get('syncColor')) {
+        return this.model.set({
+          rangeStart: value
+        });
+      }
     };
 
     ColorControlsView.prototype.onHexInput = function(ev) {
@@ -38,9 +45,14 @@
       ev.preventDefault();
       value = $(ev.currentTarget).val();
       if (value.length === 7) {
-        return this.model.set({
+        this.model.set({
           color: value
         });
+        if (!this.model.get('syncColor')) {
+          return this.model.set({
+            rangeStart: value
+          });
+        }
       }
     };
 
