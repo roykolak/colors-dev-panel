@@ -23,9 +23,11 @@
     };
 
     ColorsView.prototype.render = function() {
-      this.$el.html(Mustache.render(this.template, {
+      var properties;
+      properties = _.extend({}, this.model.toJSON(), {
         colors: this.colors
-      }));
+      });
+      this.$el.html(Mustache.render(this.template, properties));
       return this;
     };
 
@@ -45,10 +47,11 @@
     };
 
     ColorsView.prototype.onColorClicked = function(ev) {
+      var $el, event;
       ev.preventDefault();
-      return this.model.set({
-        color: $(ev.currentTarget).data('color')
-      });
+      $el = $(ev.currentTarget);
+      event = $el.hasClass('selected') ? 'unselect' : 'select';
+      return this.trigger(event, $el.data('color'), $el);
     };
 
     return ColorsView;

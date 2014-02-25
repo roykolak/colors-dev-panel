@@ -16,25 +16,25 @@
     lighten: function(options) {
       var _this = this;
       return this.range(options.steps, function(decimal) {
-        return _this.Color(options.color).lightenByRatio(decimal).toString();
+        return _this.Color(options.rangeStart).lightenByRatio(decimal).toString();
       });
     },
     darken: function(options) {
       var _this = this;
       return this.range(options.steps, function(decimal) {
-        return _this.Color(options.color).darkenByRatio(decimal).toString();
+        return _this.Color(options.rangeStart).darkenByRatio(decimal).toString();
       });
     },
     saturate: function(options) {
       var _this = this;
       return this.range(options.steps, function(decimal) {
-        return _this.Color(options.color).saturateByRatio(decimal).toString();
+        return _this.Color(options.rangeStart).saturateByRatio(decimal).toString();
       });
     },
     desaturate: function(options) {
       var _this = this;
       return this.range(options.steps, function(decimal) {
-        return _this.Color(options.color).desaturateByRatio(decimal).toString();
+        return _this.Color(options.rangeStart).desaturateByRatio(decimal).toString();
       });
     },
     blend: function(options) {
@@ -42,7 +42,7 @@
         _this = this;
       blendColor = this.Color(options.blendColor);
       return this.range(options.steps, function(decimal) {
-        return _this.Color(options.color).blend(blendColor, decimal).toString();
+        return _this.Color(options.rangeStart).blend(blendColor, decimal).toString();
       });
     },
     triadic: function(hex) {

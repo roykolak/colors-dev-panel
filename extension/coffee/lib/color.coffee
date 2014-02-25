@@ -7,24 +7,24 @@ Panel.Lib.Color =
 
   lighten: (options) ->
     @range options.steps, (decimal) =>
-      @Color(options.color).lightenByRatio(decimal).toString()
+      @Color(options.rangeStart).lightenByRatio(decimal).toString()
 
   darken: (options) ->
     @range options.steps, (decimal) =>
-      @Color(options.color).darkenByRatio(decimal).toString()
+      @Color(options.rangeStart).darkenByRatio(decimal).toString()
 
   saturate: (options) ->
     @range options.steps, (decimal) =>
-      @Color(options.color).saturateByRatio(decimal).toString()
+      @Color(options.rangeStart).saturateByRatio(decimal).toString()
 
   desaturate: (options) ->
     @range options.steps, (decimal) =>
-      @Color(options.color).desaturateByRatio(decimal).toString()
+      @Color(options.rangeStart).desaturateByRatio(decimal).toString()
 
   blend: (options) ->
     blendColor = @Color(options.blendColor)
     @range options.steps, (decimal) =>
-      @Color(options.color).blend(blendColor, decimal).toString()
+      @Color(options.rangeStart).blend(blendColor, decimal).toString()
 
   triadic: (hex) ->
     (color.toString() for color in @Color(hex).triadicScheme())

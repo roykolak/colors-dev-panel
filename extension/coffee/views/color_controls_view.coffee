@@ -16,9 +16,16 @@ class Panel.Views.ColorControlsView extends Backbone.View
     this
 
   onColorPickerClick: (ev) ->
-    @model.set color: $(ev.currentTarget).val()
+    @model.set
+      color: $(ev.currentTarget).val()
+      rangeStart: $(ev.currentTarget).val()
+      syncColor: null
 
   onHexInput: (ev) ->
     ev.preventDefault()
     value = $(ev.currentTarget).val()
-    @model.set color: value if value.length == 7
+    if value.length == 7
+      @model.set
+        color: value
+        rangeStart: value
+        syncColor: null

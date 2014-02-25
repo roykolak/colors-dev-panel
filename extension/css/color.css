@@ -38,6 +38,10 @@ input[type=range] {
   width: 100%;
   height: 100%;
 }
+.colors a.selected {
+  box-shadow: 0 0 3px 3px #CCC;
+  border: 1px solid #000;
+}
 .profile {
   width: 100%;
   height: 100%;
@@ -47,7 +51,6 @@ input[type=range] {
 }
 .side {
   width: 198px;
-  padding: 10px;
   background: #FFF;
   position: fixed;
   float: left;
@@ -59,8 +62,9 @@ input[type=range] {
 }
 .main {
   position: relative;
-  margin-left: 198px;
   width: 100%;
+  overflow-y: scroll;
+  max-height:100%;
 }
 .tabs {
   background: #E7E7E7;
@@ -96,7 +100,7 @@ input[type=range] {
 }
 .profile .formats {
   position: absolute;
-  bottom: 35px;
+  bottom: -1px;
   left: 0;
   width: 100%;
   height: 70px;
@@ -137,18 +141,19 @@ li:hover .copy {
   position: fixed;
   bottom: 0px;
   background: #E6E6E6;
-  padding: 5px 10px;
+  padding: 5px 10px 7px;
   right: 0px;
-  left: 198px;
+  left: 401px;
 }
 input.steps {
-  width: 50%;
+  width: 100%;
 }
 .color_picker {
   float: right;
 }
 .palette {
   margin-bottom: 5px;
+
 }
 .palette li {
   display: inline-block;
@@ -160,8 +165,13 @@ input.steps {
 }
 .palette_controls {
   margin-bottom: 10px;
-  padding-bottom: 10px;
+  padding: 5px;
   border-bottom: 1px solid #CCC;
+  position: fixed;
+  top: 0;
+  width: 190px;
+  background: #FFF;
+  z-index: 10;
 }
 .palette_controls .reload {
   float: right;
@@ -169,12 +179,28 @@ input.steps {
 .color_inputs {
   position: fixed;
   bottom: 0px;
-  padding: 10px;
-  background: #FFF;
-  left: 0;
-  width: 177px;
+  padding: 4px 10px 3px;
+  left: 198px;
+  width: 182px;
+  background: #E6E6E6;
 }
 .color_inputs input[type=text] {
   width: 120px;
   font-size: 12px;
+}
+.middle {
+  margin-left: 200px;
+  width: 300px;
+  border-right: 1px solid #AAA;
+}
+.middle .range_colors {
+  margin-top: 25px;
+  padding: 10px;
+}
+.middle .range_colors li {
+  width: 30px;
+  height: 30px;
+}
+.middle .range_colors li:hover a.copy {
+  display: none;
 }

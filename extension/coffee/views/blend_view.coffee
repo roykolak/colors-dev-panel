@@ -27,6 +27,8 @@ class Panel.Views.BlendView extends Backbone.View
     colorsView = new Panel.Views.ColorsView
       colors: Panel.Lib.Color.blend(@model.toJSON())
       model: @model
+    colorsView.on 'select', (color) =>
+      @model.set color: color
     @$('.range_colors').html colorsView.render().el
 
   onStepsChange: (ev) ->

@@ -31,10 +31,16 @@
     };
 
     BlendView.prototype.renderColors = function() {
-      var colorsView;
+      var colorsView,
+        _this = this;
       colorsView = new Panel.Views.ColorsView({
         colors: Panel.Lib.Color.blend(this.model.toJSON()),
         model: this.model
+      });
+      colorsView.on('select', function(color) {
+        return _this.model.set({
+          color: color
+        });
       });
       return this.$('.range_colors').html(colorsView.render().el);
     };

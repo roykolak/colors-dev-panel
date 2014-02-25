@@ -25,7 +25,9 @@
 
     ColorControlsView.prototype.onColorPickerClick = function(ev) {
       return this.model.set({
-        color: $(ev.currentTarget).val()
+        color: $(ev.currentTarget).val(),
+        rangeStart: $(ev.currentTarget).val(),
+        syncColor: null
       });
     };
 
@@ -35,7 +37,9 @@
       value = $(ev.currentTarget).val();
       if (value.length === 7) {
         return this.model.set({
-          color: value
+          color: value,
+          rangeStart: value,
+          syncColor: null
         });
       }
     };

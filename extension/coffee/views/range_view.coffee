@@ -4,7 +4,6 @@ class Panel.Views.RangeView extends Backbone.View
       <div class="range_colors"></div>
       <div class="range_controls">
         <input type="range" id="steps" class="steps" min="3" max="200" value="{{steps}}">
-        <span class="range_label"><span class="steps">{{steps}}</span> steps</span>
       </div>
     """
 
@@ -14,7 +13,7 @@ class Panel.Views.RangeView extends Backbone.View
   initialize: (options) ->
     @mode = options.mode
     @model.on 'change:steps', @renderColors, @
-    @model.on 'change:color', @render, @
+    @model.on 'change:rangeStart', @render, @
 
   render: ->
     @$el.html Mustache.render @template, @model.toJSON()
@@ -25,9 +24,10 @@ class Panel.Views.RangeView extends Backbone.View
     colorsView = new Panel.Views.ColorsView
       model: @model
       colors: Panel.Lib.Color[@mode](@model.toJSON())
+    colorsView.on 'select', (color) =>
+      @model.set color: color
     @$('.range_colors').html colorsView.render().el
 
   onStepsChange: (ev) ->
     steps = parseInt($(ev.currentTarget).val(), 10)
-    $('.steps').text steps
     @model.set steps: steps

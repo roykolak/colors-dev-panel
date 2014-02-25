@@ -11,7 +11,7 @@
       return RangeView.__super__.constructor.apply(this, arguments);
     }
 
-    RangeView.prototype.template = "<div class=\"range_colors\"></div>\n<div class=\"range_controls\">\n  <input type=\"range\" id=\"steps\" class=\"steps\" min=\"3\" max=\"200\" value=\"{{steps}}\">\n  <span class=\"range_label\"><span class=\"steps\">{{steps}}</span> steps</span>\n</div>";
+    RangeView.prototype.template = "<div class=\"range_colors\"></div>\n<div class=\"range_controls\">\n  <input type=\"range\" id=\"steps\" class=\"steps\" min=\"3\" max=\"200\" value=\"{{steps}}\">\n</div>";
 
     RangeView.prototype.events = {
       "input #steps": "onStepsChange"
@@ -20,7 +20,7 @@
     RangeView.prototype.initialize = function(options) {
       this.mode = options.mode;
       this.model.on('change:steps', this.renderColors, this);
-      return this.model.on('change:color', this.render, this);
+      return this.model.on('change:rangeStart', this.render, this);
     };
 
     RangeView.prototype.render = function() {
@@ -30,10 +30,16 @@
     };
 
     RangeView.prototype.renderColors = function() {
-      var colorsView;
+      var colorsView,
+        _this = this;
       colorsView = new Panel.Views.ColorsView({
         model: this.model,
         colors: Panel.Lib.Color[this.mode](this.model.toJSON())
+      });
+      colorsView.on('select', function(color) {
+        return _this.model.set({
+          color: color
+        });
       });
       return this.$('.range_colors').html(colorsView.render().el);
     };
@@ -41,7 +47,6 @@
     RangeView.prototype.onStepsChange = function(ev) {
       var steps;
       steps = parseInt($(ev.currentTarget).val(), 10);
-      $('.steps').text(steps);
       return this.model.set({
         steps: steps
       });

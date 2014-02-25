@@ -19,7 +19,8 @@ class Panel.Views.ColorsView extends Backbone.View
     @colors = options.colors
 
   render: ->
-    @$el.html Mustache.render @template, colors: @colors
+    properties = _.extend {}, @model.toJSON(), colors: @colors
+    @$el.html Mustache.render @template, properties
     this
 
   onCopyClicked: (ev) ->
@@ -37,4 +38,6 @@ class Panel.Views.ColorsView extends Backbone.View
 
   onColorClicked: (ev) ->
     ev.preventDefault()
-    @model.set color: $(ev.currentTarget).data('color')
+    $el = $(ev.currentTarget)
+    event = if $el.hasClass 'selected' then 'unselect' else 'select'
+    @trigger event, $el.data('color'), $el

@@ -2,10 +2,7 @@ class Panel.Views.TabView extends Backbone.View
   template:
     """
       <ul class="tabs">
-        <li class="selected" data-tab="palette">
-          <a href="#">Palette</a>
-        </li>
-        <li data-tab="lighten">
+        <li class="selected" data-tab="lighten">
           <a href="#">Lighten</a>
         </li>
         <li data-tab="darken">
@@ -28,11 +25,11 @@ class Panel.Views.TabView extends Backbone.View
     """
 
   events:
-    "click li": "onItemClick"
+    "click ul.tabs > li": "onItemClick"
 
   render: ->
     @$el.html Mustache.render @template
-    @trigger 'selection', 'palette'
+    @trigger 'selection', 'lighten'
     this
 
   onItemClick: (ev) ->

@@ -11,14 +11,11 @@
       return PaletteView.__super__.constructor.apply(this, arguments);
     }
 
-    PaletteView.prototype.template = "<div class=\"palette_controls\">\n  Found <span class=\"amount\">{{amount}}</span> unique colors on the current page\n  <a href=\"#\" class=\"reload\">Reload palette</a>\n</div>\n<div class=\"range_colors\"></div>";
-
-    PaletteView.prototype.events = {
-      "click .reload": "onReloadClick"
-    };
+    PaletteView.prototype.template = "<ul class=\"tabs\">\n  <li class=\"selected\">\n    <a href=\"#\">Page Colors</a>\n  </li>\n</ul>\n<div class=\"range_colors\"></div>";
 
     PaletteView.prototype.initialize = function() {
       this.model.on('change:palette', this.render, this);
+      this.model.on('change:syncColor', this.onSyncColorChange, this);
       return this.fetchPalette();
     };
 
@@ -27,7 +24,9 @@
         _this = this;
       if (chrome.runtime != null) {
         port = chrome.runtime.connect();
-        port.postMessage("fetch_palette");
+        port.postMessage({
+          label: 'fetch_palette'
+        });
         return port.onMessage.addListener(function(msg) {
           return _this.model.set({
             palette: msg
@@ -45,10 +44,26 @@
     };
 
     PaletteView.prototype.renderColors = function() {
-      var colorsView;
+      var colorsView,
+        _this = this;
       colorsView = new Panel.Views.ColorsView({
         model: this.model,
         colors: this.model.get('palette')
+      });
+      colorsView.on('select', function(color, $el) {
+        _this.model.set({
+          color: color,
+          syncColor: color,
+          rangeStart: color
+        });
+        colorsView.$('.selected').removeClass('selected');
+        return $el.addClass('selected');
+      });
+      colorsView.on('unselect', function(color, $el) {
+        _this.model.unset({
+          syncColor: color
+        });
+        return colorsView.$('.selected').removeClass('selected');
       });
       return this.$('.range_colors').html(colorsView.render().el);
     };
@@ -59,6 +74,12 @@
         palette: []
       });
       return this.fetchPalette();
+    };
+
+    PaletteView.prototype.onSyncColorChange = function() {
+      if (this.model.get('syncColor') == null) {
+        return $('.range_colors .selected').removeClass('selected');
+      }
     };
 
     return PaletteView;
