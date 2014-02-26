@@ -219,6 +219,10 @@ input.steps {
 .padding {
   margin-left: 198px;
 }
+.middle .tabs,
+.collapsed_page_colors .tabs {
+  border-left: none;
+}
 .collapsed_page_colors .middle {
   display: none;
 }

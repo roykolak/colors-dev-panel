@@ -9,7 +9,8 @@
     blendColor: '#D54545',
     palette: [],
     copyFormat: 'hex',
-    tab: 'lighten'
+    tab: 'lighten',
+    pageColorsCollapsed: false
   });
 
   model.on('change:color', function() {

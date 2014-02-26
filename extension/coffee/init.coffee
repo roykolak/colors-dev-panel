@@ -6,6 +6,7 @@ model = new Backbone.Model
   palette: []
   copyFormat: 'hex'
   tab: 'lighten'
+  pageColorsCollapsed: false
 
 model.on 'change:color', ->
   if model.get('syncColor')

@@ -62,11 +62,15 @@ class Panel.Views.PaletteView extends Backbone.View
     @fetchPalette()
 
   onSyncColorChange: ->
-    @$('.range_colors .selected').removeClass('selected')
-    @$('.range_colors li').css opacity: 0.2
-    $el = @$("li[data-color='#{@model.get('syncColor')}']")
-    $el.addClass('selected')
-    $el.css opacity: 1
+    if @model.get('syncColor')?
+      @$('.range_colors .selected').removeClass('selected')
+      @$('.range_colors li').css opacity: 0.2
+      $el = @$("li[data-color='#{@model.get('syncColor')}']")
+      $el.addClass('selected')
+      $el.css opacity: 1
+    else
+      @$('.range_colors .selected').removeClass('selected')
+      @$('.range_colors li').css opacity: 1
 
   onFetchColorsClick: (ev) ->
     ev.preventDefault()

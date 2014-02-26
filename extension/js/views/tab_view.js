@@ -22,6 +22,9 @@
     TabView.prototype.render = function() {
       this.$el.html(Mustache.render(this.template));
       this.trigger('selection', this.model.get('tab'));
+      if (this.model.get('pageColorsCollapsed')) {
+        this.onCollapseClick();
+      }
       return this;
     };
 
@@ -45,7 +48,8 @@
       ev.preventDefault();
       this.$('.expand').show();
       this.$('.collapse').hide();
-      return $('body').addClass('collapsed_page_colors');
+      $('body').addClass('collapsed_page_colors');
+      return this.model.unset('syncColor');
     };
 
     TabView.prototype.onExpandClick = function(ev) {

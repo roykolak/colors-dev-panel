@@ -91,15 +91,22 @@
 
     PaletteView.prototype.onSyncColorChange = function() {
       var $el;
-      this.$('.range_colors .selected').removeClass('selected');
-      this.$('.range_colors li').css({
-        opacity: 0.2
-      });
-      $el = this.$("li[data-color='" + (this.model.get('syncColor')) + "']");
-      $el.addClass('selected');
-      return $el.css({
-        opacity: 1
-      });
+      if (this.model.get('syncColor') != null) {
+        this.$('.range_colors .selected').removeClass('selected');
+        this.$('.range_colors li').css({
+          opacity: 0.2
+        });
+        $el = this.$("li[data-color='" + (this.model.get('syncColor')) + "']");
+        $el.addClass('selected');
+        return $el.css({
+          opacity: 1
+        });
+      } else {
+        this.$('.range_colors .selected').removeClass('selected');
+        return this.$('.range_colors li').css({
+          opacity: 1
+        });
+      }
     };
 
     PaletteView.prototype.onFetchColorsClick = function(ev) {
