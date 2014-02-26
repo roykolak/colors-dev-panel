@@ -12,8 +12,6 @@ class Panel.Views.SchemaView extends Backbone.View
         <dd class="neutral"></dd>
         <dt>Tetradic</dt>
         <dd class="tetradic"></dd>
-        <dt>SixTone</dt>
-        <dd class="sixTone"></dd>
       </dl>
     """
 
@@ -27,7 +25,7 @@ class Panel.Views.SchemaView extends Backbone.View
 
   renderColors: ->
     color = @model.get('color')
-    for schema in ['complementary', 'triadic', 'analogous', 'sixTone', 'neutral', 'tetradic']
+    for schema in ['complementary', 'triadic', 'analogous', 'neutral', 'tetradic']
       view = new Panel.Views.ColorsView
         model: @model
         colors: Panel.Lib.Color[schema](color)

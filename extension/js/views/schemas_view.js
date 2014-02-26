@@ -11,7 +11,7 @@
       return SchemaView.__super__.constructor.apply(this, arguments);
     }
 
-    SchemaView.prototype.template = "<dl>\n  <dt>Complementary</dt>\n  <dd class=\"complementary\"></dd>\n  <dt>Triadic</dt>\n  <dd class=\"triadic\"></dd>\n  <dt>Analogous</dt>\n  <dd class=\"analogous\"></dd>\n  <dt>Neutral</dt>\n  <dd class=\"neutral\"></dd>\n  <dt>Tetradic</dt>\n  <dd class=\"tetradic\"></dd>\n  <dt>SixTone</dt>\n  <dd class=\"sixTone\"></dd>\n</dl>";
+    SchemaView.prototype.template = "<dl>\n  <dt>Complementary</dt>\n  <dd class=\"complementary\"></dd>\n  <dt>Triadic</dt>\n  <dd class=\"triadic\"></dd>\n  <dt>Analogous</dt>\n  <dd class=\"analogous\"></dd>\n  <dt>Neutral</dt>\n  <dd class=\"neutral\"></dd>\n  <dt>Tetradic</dt>\n  <dd class=\"tetradic\"></dd>\n</dl>";
 
     SchemaView.prototype.initialize = function() {
       return this.model.on('change:color', this.render, this);
@@ -27,7 +27,7 @@
       var color, schema, view, _i, _len, _ref, _results,
         _this = this;
       color = this.model.get('color');
-      _ref = ['complementary', 'triadic', 'analogous', 'sixTone', 'neutral', 'tetradic'];
+      _ref = ['complementary', 'triadic', 'analogous', 'neutral', 'tetradic'];
       _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         schema = _ref[_i];
