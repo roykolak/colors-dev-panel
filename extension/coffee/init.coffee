@@ -4,6 +4,7 @@ model = new Backbone.Model
   steps: 40
   blendColor: '#D54545'
   palette: []
+  copyFormat: 'hex'
 
 model.on 'change:color', ->
   if model.get('syncColor')

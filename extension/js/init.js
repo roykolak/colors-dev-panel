@@ -7,7 +7,8 @@
     rangeStart: '#4573D5',
     steps: 40,
     blendColor: '#D54545',
-    palette: []
+    palette: [],
+    copyFormat: 'hex'
   });
 
   model.on('change:color', function() {

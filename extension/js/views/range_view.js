@@ -11,10 +11,11 @@
       return RangeView.__super__.constructor.apply(this, arguments);
     }
 
-    RangeView.prototype.template = "<div class=\"range_colors\"></div>\n<div class=\"range_controls\">\n  <input type=\"range\" id=\"steps\" class=\"steps\" min=\"3\" max=\"200\" value=\"{{steps}}\">\n</div>";
+    RangeView.prototype.template = "<div class=\"heading\">\n  Showing <span class=\"steps_count\">{{steps}}</span> steps to <span class=\"end_color\" style=\"background: {{endColor}};\"></span>\n  <div class=\"copy_controls\">\n    copy as:\n    <select class=\"copy_format\">\n      <option value=\"hex\">hex</option>\n      <option value=\"rgb\">rgb</option>\n      <option value=\"hsl\">hsl</option>\n    </select>\n  </div>\n</div>\n<div class=\"range_colors\"></div>\n<div class=\"range_controls\">\n  <input type=\"range\" id=\"steps\" class=\"steps\" min=\"3\" max=\"200\" value=\"{{steps}}\">\n</div>";
 
     RangeView.prototype.events = {
-      "input #steps": "onStepsChange"
+      "input #steps": "onStepsChange",
+      "change .copy_format": "onCopyFormatChange"
     };
 
     RangeView.prototype.initialize = function(options) {
@@ -24,7 +25,22 @@
     };
 
     RangeView.prototype.render = function() {
-      this.$el.html(Mustache.render(this.template, this.model.toJSON()));
+      var endColor;
+      endColor = (function() {
+        switch (this.mode) {
+          case 'lighten':
+            return '#FFF';
+          case 'darken':
+            return '#000';
+          case 'saturate':
+            return '#FFF';
+          case 'desaturate':
+            return '#FFF';
+        }
+      }).call(this);
+      this.$el.html(Mustache.render(this.template, _.extend({}, this.model.toJSON(), {
+        endColor: endColor
+      })));
       this.renderColors();
       return this;
     };
@@ -47,8 +63,16 @@
     RangeView.prototype.onStepsChange = function(ev) {
       var steps;
       steps = parseInt($(ev.currentTarget).val(), 10);
+      this.$('.steps_count').text(steps);
       return this.model.set({
         steps: steps
+      });
+    };
+
+    RangeView.prototype.onCopyFormatChange = function(ev) {
+      ev.preventDefault();
+      return this.model.set({
+        copyFormat: $(ev.currentTarget).val()
       });
     };
 

@@ -80,18 +80,29 @@
     };
 
     ColorsView.prototype.onCopyClicked = function(ev) {
-      var $el, copyDiv;
-      ev.preventDefault();
+      var $el, color, copyDiv;
+      ev.stopImmediatePropagation();
       $el = $(ev.currentTarget);
+      color = (function() {
+        switch (this.model.get('copyFormat')) {
+          case 'rgb':
+            return Panel.Lib.Color.toRgbCSS($el.data('color'));
+          case 'hsl':
+            return Panel.Lib.Color.toHslCSS($el.data('color'));
+          case 'hex':
+            return Panel.Lib.Color.toHexCSS($el.data('color'));
+        }
+      }).call(this);
       copyDiv = document.createElement('div');
       copyDiv.contentEditable = true;
       document.body.appendChild(copyDiv);
-      copyDiv.innerHTML = $el.data('color');
+      copyDiv.innerHTML = color;
       copyDiv.unselectable = "off";
       copyDiv.focus();
       document.execCommand('SelectAll');
       document.execCommand("Copy", false, null);
-      return document.body.removeChild(copyDiv);
+      document.body.removeChild(copyDiv);
+      return $el.parent().addClass('flash_once animated');
     };
 
     ColorsView.prototype.onColorClicked = function(ev) {

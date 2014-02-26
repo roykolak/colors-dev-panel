@@ -66,17 +66,26 @@ class Panel.Views.ColorsView extends Backbone.View
     this
 
   onCopyClicked: (ev) ->
-    ev.preventDefault()
+    ev.stopImmediatePropagation()
     $el = $(ev.currentTarget)
+
+    color = switch @model.get('copyFormat')
+      when 'rgb' then Panel.Lib.Color.toRgbCSS($el.data('color'))
+      when 'hsl' then Panel.Lib.Color.toHslCSS($el.data('color'))
+      when 'hex' then Panel.Lib.Color.toHexCSS($el.data('color'))
+
     copyDiv = document.createElement('div')
     copyDiv.contentEditable = true
     document.body.appendChild(copyDiv)
-    copyDiv.innerHTML = $el.data('color')
+    copyDiv.innerHTML = color
     copyDiv.unselectable = "off"
     copyDiv.focus()
+
     document.execCommand('SelectAll')
     document.execCommand("Copy", false, null)
+
     document.body.removeChild(copyDiv)
+    $el.parent().addClass('flash_once animated')
 
   onColorClicked: (ev) ->
     ev.preventDefault()

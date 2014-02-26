@@ -11,10 +11,12 @@
       return TabView.__super__.constructor.apply(this, arguments);
     }
 
-    TabView.prototype.template = "<ul class=\"tabs\">\n  <li class=\"selected\" data-tab=\"lighten\">\n    <a href=\"#\">Lighten</a>\n  </li>\n  <li data-tab=\"darken\">\n    <a href=\"#\">Darken</a>\n  </li>\n  <li data-tab=\"saturate\">\n    <a href=\"#\">Saturate</a>\n  </li>\n  <li data-tab=\"desaturate\">\n    <a href=\"#\">Desaturate</a>\n  </li>\n  <li data-tab=\"blend\">\n    <a href=\"#\">Blend</a>\n  </li>\n  <li data-tab=\"schemas\">\n    <a href=\"#\">Schemas</a>\n  </li>\n</ul>\n<div id=\"tab_content\" style=\"overflow: scroll\"></div>";
+    TabView.prototype.template = "<div class=\"tab_header\">\n  <a href=\"#\" class=\"collapse\"></a>\n  <a href=\"#\" class=\"expand\" style=\"display: none;\"></a>\n  <ul class=\"tabs\">\n    <li class=\"selected\" data-tab=\"lighten\">\n      <a href=\"#\">Lighten</a>\n    </li>\n    <li data-tab=\"darken\">\n      <a href=\"#\">Darken</a>\n    </li>\n    <li data-tab=\"saturate\">\n      <a href=\"#\">Saturate</a>\n    </li>\n    <li data-tab=\"desaturate\">\n      <a href=\"#\">Desaturate</a>\n    </li>\n    <li data-tab=\"blend\">\n      <a href=\"#\">Blend</a>\n    </li>\n    <li data-tab=\"schemas\">\n      <a href=\"#\">Schemas</a>\n    </li>\n  </ul>\n</div>\n<div id=\"tab_content\" style=\"overflow: scroll\"></div>";
 
     TabView.prototype.events = {
-      "click ul.tabs > li": "onItemClick"
+      "click ul.tabs > li": "onItemClick",
+      "click .collapse": "onCollapseClick",
+      "click .expand": "onExpandClick"
     };
 
     TabView.prototype.render = function() {
@@ -34,6 +36,20 @@
 
     TabView.prototype.update = function($el) {
       return this.$('#tab_content').html($el);
+    };
+
+    TabView.prototype.onCollapseClick = function(ev) {
+      ev.preventDefault();
+      this.$('.expand').show();
+      this.$('.collapse').hide();
+      return $('.middle').addClass('collapse');
+    };
+
+    TabView.prototype.onExpandClick = function(ev) {
+      ev.preventDefault();
+      this.$('.expand').hide();
+      this.$('.collapse').show();
+      return $('.middle').removeClass('collapse');
     };
 
     return TabView;

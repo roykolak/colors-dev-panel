@@ -72,19 +72,22 @@ input[type=range] {
   border-right: 1px solid #CCC;
 }
 .main {
-  position: fixed;
   overflow-y: scroll;
-  margin-left: 404px;
   max-height:100%;
+  box-sizing: border-box;
+  width: 100%;
 }
 .tabs {
   background: #E7E7E7;
   padding: 3px 5px 0;
-  position: fixed;
   top: 0;
   z-index: 10;
   width: 100%;
   border-bottom: 1px solid #AAA;
+  border-left: 1px solid #AAA;
+}
+.main .tabs {
+  padding-left: 22px;
 }
 .tabs li {
   display: inline-block;
@@ -205,11 +208,15 @@ input.steps {
   font-size: 12px;
 }
 .middle {
-  margin-left: 198px;
-  width: 202px;
-  position: fixed;
+  width: 300px;
   height: 100%;
   border-right: 1px solid #AAA;
+}
+.padding {
+  margin-left: 198px;
+}
+.middle.collapse {
+  display: none;
 }
 .middle .range_colors {
   padding: 10px;
@@ -229,4 +236,69 @@ input.steps {
   z-index: 13;
   color: #000;
   font-size: 11px;
+}
+.copy_controls {
+  position: absolute;
+  top: -2px;
+  right: 10px;
+  z-index: 20;
+}
+.end_color {
+  display: inline-block;
+  width: 20px;
+  height: 14px;
+  margin: 0 5px;
+  border: 1px solid #000;
+  vertical-align: middle;
+}
+.heading {
+  border-bottom: 1px solid #CCC;
+  margin-bottom: 5px;
+  padding-bottom: 10px;
+  font-size: 11px;
+  position: relative;
+}
+@-webkit-keyframes flash_once {
+  0%, 100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes flash_once {
+  0%, 100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+}
+
+.flash_once {
+  -webkit-animation-name: flash_once;
+  animation-name: flash_once;
+}
+.tab_header {
+  position: fixed;
+  width: 100%;
+  top: 0;
+}
+.collapse, .expand {
+  width: 17px;
+  height: 14px;
+  display: block;
+  top: 5px;
+  left: 3px;
+  z-index: 20;
+  position: absolute;
+}
+.collapse {
+  background: url(../images/collapse.png);
+}
+.expand {
+  background: url(../images/expand.png);
 }

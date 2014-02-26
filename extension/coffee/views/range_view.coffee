@@ -1,6 +1,17 @@
 class Panel.Views.RangeView extends Backbone.View
   template:
     """
+      <div class="heading">
+        Showing <span class="steps_count">{{steps}}</span> steps to <span class="end_color" style="background: {{endColor}};"></span>
+        <div class="copy_controls">
+          copy as:
+          <select class="copy_format">
+            <option value="hex">hex</option>
+            <option value="rgb">rgb</option>
+            <option value="hsl">hsl</option>
+          </select>
+        </div>
+      </div>
       <div class="range_colors"></div>
       <div class="range_controls">
         <input type="range" id="steps" class="steps" min="3" max="200" value="{{steps}}">
@@ -9,6 +20,7 @@ class Panel.Views.RangeView extends Backbone.View
 
   events:
     "input #steps": "onStepsChange"
+    "change .copy_format": "onCopyFormatChange"
 
   initialize: (options) ->
     @mode = options.mode
@@ -16,7 +28,14 @@ class Panel.Views.RangeView extends Backbone.View
     @model.on 'change:rangeStart', @render, @
 
   render: ->
-    @$el.html Mustache.render @template, @model.toJSON()
+    endColor = switch @mode
+      when 'lighten' then '#FFF'
+      when 'darken' then '#000'
+      when 'saturate' then '#FFF'
+      when 'desaturate' then '#FFF'
+
+    @$el.html Mustache.render @template, _.extend {}, @model.toJSON(),
+      endColor: endColor
     @renderColors()
     this
 
@@ -30,4 +49,9 @@ class Panel.Views.RangeView extends Backbone.View
 
   onStepsChange: (ev) ->
     steps = parseInt($(ev.currentTarget).val(), 10)
+    @$('.steps_count').text steps
     @model.set steps: steps
+
+  onCopyFormatChange: (ev) ->
+    ev.preventDefault()
+    @model.set copyFormat: $(ev.currentTarget).val()
