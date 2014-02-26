@@ -6,12 +6,14 @@ Panel.Lib.Color =
     (callback((100 / range) * i / 100) for i in [1..range])
 
   lighten: (options) ->
+    blendColor = @Color('#FFF')
     @range options.steps, (decimal) =>
-      @Color(options.rangeStart).lightenByRatio(decimal).toString()
+      @Color(options.rangeStart).blend(blendColor, decimal).toString()
 
   darken: (options) ->
+    blendColor = @Color('#000')
     @range options.steps, (decimal) =>
-      @Color(options.rangeStart).darkenByRatio(decimal).toString()
+      @Color(options.rangeStart).blend(blendColor, decimal).toString()
 
   saturate: (options) ->
     @range options.steps, (decimal) =>

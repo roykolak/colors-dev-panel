@@ -14,15 +14,19 @@
       return _results;
     },
     lighten: function(options) {
-      var _this = this;
+      var blendColor,
+        _this = this;
+      blendColor = this.Color('#FFF');
       return this.range(options.steps, function(decimal) {
-        return _this.Color(options.rangeStart).lightenByRatio(decimal).toString();
+        return _this.Color(options.rangeStart).blend(blendColor, decimal).toString();
       });
     },
     darken: function(options) {
-      var _this = this;
+      var blendColor,
+        _this = this;
+      blendColor = this.Color('#000');
       return this.range(options.steps, function(decimal) {
-        return _this.Color(options.rangeStart).darkenByRatio(decimal).toString();
+        return _this.Color(options.rangeStart).blend(blendColor, decimal).toString();
       });
     },
     saturate: function(options) {
