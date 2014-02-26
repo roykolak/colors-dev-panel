@@ -2,7 +2,8 @@ class Panel.Views.BlendView extends Backbone.View
   template:
     """
       <div class="heading">
-        Showing <span class="steps_count">{{steps}}</span> steps to <span class="end_color" style="background: {{blendColor}};"></span>
+        Showing <span class="steps_count">{{steps}}</span> steps to
+        <input type="color" class="color_picker" id="color_picker" value="{{blendColor}}">
         <div class="copy_controls">
           copy as:
           <select class="copy_format">
@@ -14,7 +15,6 @@ class Panel.Views.BlendView extends Backbone.View
       </div>
       <div class="range_colors"></div>
       <div class="range_controls">
-        <input type="color" class="color_picker" id="color_picker" value="{{blendColor}}">
         <input type="range" id="steps" class="steps" min="3" max="200" value="{{steps}}">
       </div>
     """

@@ -76,17 +76,19 @@ input[type=range] {
   max-height:100%;
   box-sizing: border-box;
 }
+.main .colors {
+  margin-bottom: 40px;
+}
 .tabs {
   background: #E7E7E7;
   padding: 3px 5px 0;
   top: 0;
   z-index: 10;
-  width: 100%;
   border-bottom: 1px solid #AAA;
-  border-left: 1px solid #AAA;
 }
 .main .tabs {
   padding-left: 22px;
+  width: 100%;
 }
 .tabs li {
   display: inline-block;
@@ -161,12 +163,18 @@ li:hover .copy {
   left: 198px;
 }
 input.steps {
-  width: 85%;
+  width: 100%;
 }
-.color_picker {
+.color_inputs .color_picker {
   position: absolute;
   right: 10px;
   top: 5px;
+}
+.heading .color_picker {
+  height: 17px;
+  margin: 0 5px;
+  position: relative;
+  top: -1px;
 }
 .palette {
   margin-bottom: 5px;
@@ -221,7 +229,6 @@ input.steps {
   height: 100%;
   float: left;
 }
-.middle .tabs,
 .collapsed_page_colors .tabs {
   border-left: none;
 }
@@ -267,6 +274,7 @@ input.steps {
   padding-bottom: 10px;
   font-size: 11px;
   position: relative;
+  height: 16px;
 }
 @-webkit-keyframes flash_once {
   0%, 100% {
@@ -300,6 +308,7 @@ input.steps {
   position: fixed;
   width: 100%;
   top: 0;
+  z-index: 30;
 }
 .collapse, .expand {
   width: 17px;
