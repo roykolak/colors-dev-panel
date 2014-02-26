@@ -3,7 +3,6 @@ body {
   font-size: 12px;
   padding: 0;
   margin: 0;
-  display: flex;
 }
 dl, dd, ul, ol {
   padding: 0;
@@ -76,7 +75,6 @@ input[type=range] {
   overflow-y: scroll;
   max-height:100%;
   box-sizing: border-box;
-  width: 100%;
 }
 .tabs {
   background: #E7E7E7;
@@ -212,13 +210,16 @@ input.steps {
   font-size: 12px;
 }
 .middle {
-  width: 295px;
+  width: 202px;
   height: 100%;
   position: relative;
   border-right: 1px solid #AAA;
+  float: left;
 }
 .padding {
-  margin-left: 198px;
+  width: 198px;
+  height: 100%;
+  float: left;
 }
 .middle .tabs,
 .collapsed_page_colors .tabs {
@@ -231,8 +232,8 @@ input.steps {
   padding: 10px;
 }
 .middle .range_colors li {
-  width: 30px;
-  height: 30px;
+  width: 27px;
+  height: 27px;
   cursor: pointer;
 }
 .middle .range_colors li:hover a.copy {
