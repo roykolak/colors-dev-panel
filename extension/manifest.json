@@ -17,7 +17,8 @@
   "permissions": [
     "clipboardWrite",
     "clipboardRead",
-    "tabs"
+    "tabs",
+    "storage"
   ],
   "content_scripts": [
     {

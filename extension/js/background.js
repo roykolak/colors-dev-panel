@@ -3,12 +3,23 @@
 
   chrome.extension.onConnect.addListener(function(port) {
     port.onMessage.addListener(function(message) {
-      return chrome.tabs.query({
-        currentWindow: true,
-        active: true
-      }, function(tabs) {
-        return chrome.tabs.sendMessage(tabs[0].id, message);
-      });
+      switch (message.label) {
+        case 'retrieve_state':
+          return chrome.storage.sync.get('color', function(data) {
+            return port.postMessage(data.color);
+          });
+        case 'save_state':
+          return chrome.storage.sync.set({
+            color: message.data
+          });
+        default:
+          return chrome.tabs.query({
+            currentWindow: true,
+            active: true
+          }, function(tabs) {
+            return chrome.tabs.sendMessage(tabs[0].id, message);
+          });
+      }
     });
     return chrome.extension.onMessage.addListener(function(message, sender) {
       return port.postMessage(message);

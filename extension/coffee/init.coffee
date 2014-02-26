@@ -18,6 +18,14 @@ model.on 'change:color', ->
         ]
         newColor: model.get('color')
 
+if chrome.runtime?
+  port = chrome.runtime.connect()
+  port.postMessage(label: 'retrieve_state')
+  port.onMessage.addListener (data) -> model.set data
+
+  model.on 'change', ->
+    port.postMessage(label: 'save_state', data: model.toJSON())
+
 $ ->
   colorView = new Panel.Views.ColorView model: model
   $('.side').html colorView.render().el
