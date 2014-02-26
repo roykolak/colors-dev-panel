@@ -11,7 +11,7 @@
       return ColorControlsView.__super__.constructor.apply(this, arguments);
     }
 
-    ColorControlsView.prototype.template = "<div class=\"color_inputs\">\n  <input type=\"text\" class=\"hex_input\" placeholder=\"#CCCCCC\" />\n  <input type=\"color\" class=\"color_picker\" />\n</div>";
+    ColorControlsView.prototype.template = "<div class=\"color_inputs\">\n  <input type=\"text\" class=\"hex_input\" placeholder=\"#CCCCCC\" value=\"{{color}}\"/>\n  <input type=\"color\" class=\"color_picker\" />\n</div>";
 
     ColorControlsView.prototype.events = {
       "input .color_picker": "onColorPickerClick",
@@ -23,7 +23,7 @@
     };
 
     ColorControlsView.prototype.render = function() {
-      this.$el.html(Mustache.render(this.template));
+      this.$el.html(Mustache.render(this.template, this.model.toJSON()));
       return this;
     };
 

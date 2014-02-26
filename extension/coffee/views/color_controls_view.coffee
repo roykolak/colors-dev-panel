@@ -2,7 +2,7 @@ class Panel.Views.ColorControlsView extends Backbone.View
   template:
     """
       <div class="color_inputs">
-        <input type="text" class="hex_input" placeholder="#CCCCCC" />
+        <input type="text" class="hex_input" placeholder="#CCCCCC" value="{{color}}"/>
         <input type="color" class="color_picker" />
       </div>
     """
@@ -15,7 +15,7 @@ class Panel.Views.ColorControlsView extends Backbone.View
     @model.on 'change:color', @updateHaxInput, @
 
   render: ->
-    @$el.html Mustache.render @template
+    @$el.html Mustache.render @template, @model.toJSON()
     this
 
   onColorPickerClick: (ev) ->

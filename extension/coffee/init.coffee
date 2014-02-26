@@ -32,11 +32,11 @@ $ ->
   colorView = new Panel.Views.ColorView model: model
   $('.side').html colorView.render().el
 
+  colorControlsView = new Panel.Views.ColorControlsView model: model
+  $('.side').append colorControlsView.render().el
+
   paletteView = new Panel.Views.PaletteView model: model
   $('.middle').html paletteView.render().el
-
-  colorControlsView = new Panel.Views.ColorControlsView model: model
-  $('.middle').append colorControlsView.render().el
 
   tabView = new Panel.Views.TabView model: model
   tabView.on 'selection', (selection) ->
