@@ -35,7 +35,7 @@ class Panel.Views.TabView extends Backbone.View
 
   render: ->
     @$el.html Mustache.render @template
-    @trigger 'selection', 'lighten'
+    @trigger 'selection', @model.get('tab')
     this
 
   onItemClick: (ev) ->
@@ -44,6 +44,7 @@ class Panel.Views.TabView extends Backbone.View
     @$('.selected').removeClass('selected')
     $el.addClass('selected')
     @trigger 'selection', $el.data('tab')
+    @model.set tab: $el.data('data')
 
   update: ($el) ->
     @$('#tab_content').html $el
@@ -52,10 +53,10 @@ class Panel.Views.TabView extends Backbone.View
     ev.preventDefault()
     @$('.expand').show()
     @$('.collapse').hide()
-    $('.middle').addClass('collapse')
+    $('body').addClass('collapsed_page_colors')
 
   onExpandClick: (ev) ->
     ev.preventDefault()
     @$('.expand').hide()
     @$('.collapse').show()
-    $('.middle').removeClass('collapse')
+    $('body').removeClass('collapsed_page_colors')

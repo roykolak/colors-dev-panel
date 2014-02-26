@@ -5,6 +5,7 @@ model = new Backbone.Model
   blendColor: '#D54545'
   palette: []
   copyFormat: 'hex'
+  tab: 'lighten'
 
 model.on 'change:color', ->
   if model.get('syncColor')

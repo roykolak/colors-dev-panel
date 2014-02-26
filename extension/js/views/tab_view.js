@@ -21,7 +21,7 @@
 
     TabView.prototype.render = function() {
       this.$el.html(Mustache.render(this.template));
-      this.trigger('selection', 'lighten');
+      this.trigger('selection', this.model.get('tab'));
       return this;
     };
 
@@ -31,7 +31,10 @@
       $el = $(ev.currentTarget);
       this.$('.selected').removeClass('selected');
       $el.addClass('selected');
-      return this.trigger('selection', $el.data('tab'));
+      this.trigger('selection', $el.data('tab'));
+      return this.model.set({
+        tab: $el.data('data')
+      });
     };
 
     TabView.prototype.update = function($el) {
@@ -42,14 +45,14 @@
       ev.preventDefault();
       this.$('.expand').show();
       this.$('.collapse').hide();
-      return $('.middle').addClass('collapse');
+      return $('body').addClass('collapsed_page_colors');
     };
 
     TabView.prototype.onExpandClick = function(ev) {
       ev.preventDefault();
       this.$('.expand').hide();
       this.$('.collapse').show();
-      return $('.middle').removeClass('collapse');
+      return $('body').removeClass('collapsed_page_colors');
     };
 
     return TabView;

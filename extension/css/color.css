@@ -159,6 +159,9 @@ li:hover .copy {
   right: 0px;
   left: 401px;
 }
+.collapsed_page_colors .range_controls {
+  left: 198px;
+}
 input.steps {
   width: 85%;
 }
@@ -170,7 +173,7 @@ input.steps {
   margin-bottom: 5px;
 }
 .palette_instructions {
-  margin: 32px 10px 0px;
+  margin: 12px 10px 0px;
   font-size: 11px;
   color: #444;
 }
@@ -208,14 +211,15 @@ input.steps {
   font-size: 12px;
 }
 .middle {
-  width: 300px;
+  width: 295px;
   height: 100%;
+  position: relative;
   border-right: 1px solid #AAA;
 }
 .padding {
   margin-left: 198px;
 }
-.middle.collapse {
+.collapsed_page_colors .middle {
   display: none;
 }
 .middle .range_colors {

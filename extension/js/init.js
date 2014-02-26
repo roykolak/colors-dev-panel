@@ -8,7 +8,8 @@
     steps: 40,
     blendColor: '#D54545',
     palette: [],
-    copyFormat: 'hex'
+    copyFormat: 'hex',
+    tab: 'lighten'
   });
 
   model.on('change:color', function() {
