@@ -1,6 +1,17 @@
 class Panel.Views.BlendView extends Backbone.View
   template:
     """
+      <div class="heading">
+        Showing <span class="steps_count">{{steps}}</span> steps to <span class="end_color" style="background: {{blendColor}};"></span>
+        <div class="copy_controls">
+          copy as:
+          <select class="copy_format">
+            <option value="hex">hex</option>
+            <option value="rgb">rgb</option>
+            <option value="hsl">hsl</option>
+          </select>
+        </div>
+      </div>
       <div class="range_colors"></div>
       <div class="range_controls">
         <input type="color" class="color_picker" id="color_picker" value="{{blendColor}}">
@@ -33,7 +44,14 @@ class Panel.Views.BlendView extends Backbone.View
   onStepsChange: (ev) ->
     steps = parseInt($(ev.currentTarget).val(), 10)
     $('.steps').text steps
+    @$('.steps_count').text steps
     @model.set steps: steps
 
   onBlendColorChange: (ev) ->
-    @model.set blendColor: $(ev.currentTarget).val()
+    color = $(ev.currentTarget).val()
+    $('.end_color').css background: color
+    @model.set blendColor: color
+
+  onCopyFormatChange: (ev) ->
+    ev.preventDefault()
+    @model.set copyFormat: $(ev.currentTarget).val()
