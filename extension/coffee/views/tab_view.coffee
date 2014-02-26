@@ -36,30 +36,41 @@ class Panel.Views.TabView extends Backbone.View
   render: ->
     @$el.html Mustache.render @template
     @trigger 'selection', @model.get('tab')
-    if @model.get('pageColorsCollapsed')
-      @onCollapseClick()
+    @model.on 'change:pageColorsCollapsed', @collapse, @
+    @model.on 'change:tab', @loadTab, @
     this
 
   onItemClick: (ev) ->
     ev.preventDefault()
     $el = $(ev.currentTarget)
+    @model.set tab: $el.data('tab')
+    @loadTab()
+
+  loadTab: ->
     @$('.selected').removeClass('selected')
-    $el.addClass('selected')
-    @trigger 'selection', $el.data('tab')
-    @model.set tab: $el.data('data')
+    @$("[data-tab='#{@model.get('tab')}']").addClass('selected')
+    @trigger 'selection', @model.get('tab')
 
   update: ($el) ->
     @$('#tab_content').html $el
 
   onCollapseClick: (ev) ->
     ev.preventDefault()
+    @model.unset 'syncColor'
+    @model.set pageColorsCollapsed: true
+    @collapse()
+
+  collapse: ->
     @$('.expand').show()
     @$('.collapse').hide()
     $('body').addClass('collapsed_page_colors')
-    @model.unset 'syncColor'
 
   onExpandClick: (ev) ->
     ev.preventDefault()
+    @model.set pageColorsCollapsed: false
+    @expand()
+
+  expand: ->
     @$('.expand').hide()
     @$('.collapse').show()
     $('body').removeClass('collapsed_page_colors')

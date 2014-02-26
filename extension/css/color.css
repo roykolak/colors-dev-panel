@@ -44,7 +44,8 @@ input[type=range] {
   cursor: move;
   box-sizing: border-box;
 }
-.syncing.colors li {
+.syncing.colors li,
+.collapsed_page_colors .colors li {
   cursor: pointer;
 }
 .colors li.dragging .copy {
@@ -272,7 +273,7 @@ input.steps {
   }
 
   50% {
-    opacity: 0;
+    opacity: 0.3;
   }
 }
 
@@ -282,13 +283,17 @@ input.steps {
   }
 
   50% {
-    opacity: 0;
+    opacity: 0.3;
   }
 }
 
 .flash_once {
   -webkit-animation-name: flash_once;
   animation-name: flash_once;
+}
+.fast_animated {
+  -webkit-animation-duration: .25s;
+  animation-duration: .25s;
 }
 .tab_header {
   position: fixed;

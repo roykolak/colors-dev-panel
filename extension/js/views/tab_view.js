@@ -22,9 +22,8 @@
     TabView.prototype.render = function() {
       this.$el.html(Mustache.render(this.template));
       this.trigger('selection', this.model.get('tab'));
-      if (this.model.get('pageColorsCollapsed')) {
-        this.onCollapseClick();
-      }
+      this.model.on('change:pageColorsCollapsed', this.collapse, this);
+      this.model.on('change:tab', this.loadTab, this);
       return this;
     };
 
@@ -32,12 +31,16 @@
       var $el;
       ev.preventDefault();
       $el = $(ev.currentTarget);
-      this.$('.selected').removeClass('selected');
-      $el.addClass('selected');
-      this.trigger('selection', $el.data('tab'));
-      return this.model.set({
-        tab: $el.data('data')
+      this.model.set({
+        tab: $el.data('tab')
       });
+      return this.loadTab();
+    };
+
+    TabView.prototype.loadTab = function() {
+      this.$('.selected').removeClass('selected');
+      this.$("[data-tab='" + (this.model.get('tab')) + "']").addClass('selected');
+      return this.trigger('selection', this.model.get('tab'));
     };
 
     TabView.prototype.update = function($el) {
@@ -46,14 +49,28 @@
 
     TabView.prototype.onCollapseClick = function(ev) {
       ev.preventDefault();
+      this.model.unset('syncColor');
+      this.model.set({
+        pageColorsCollapsed: true
+      });
+      return this.collapse();
+    };
+
+    TabView.prototype.collapse = function() {
       this.$('.expand').show();
       this.$('.collapse').hide();
-      $('body').addClass('collapsed_page_colors');
-      return this.model.unset('syncColor');
+      return $('body').addClass('collapsed_page_colors');
     };
 
     TabView.prototype.onExpandClick = function(ev) {
       ev.preventDefault();
+      this.model.set({
+        pageColorsCollapsed: false
+      });
+      return this.expand();
+    };
+
+    TabView.prototype.expand = function() {
       this.$('.expand').hide();
       this.$('.collapse').show();
       return $('body').removeClass('collapsed_page_colors');

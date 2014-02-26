@@ -35,11 +35,17 @@
         return _this.Color(options.rangeStart).saturateByRatio(decimal).toString();
       });
     },
+    fullSaturation: function(hex) {
+      return this.Color(hex).saturateByRatio(1).toString();
+    },
     desaturate: function(options) {
       var _this = this;
       return this.range(options.steps, function(decimal) {
         return _this.Color(options.rangeStart).desaturateByRatio(decimal).toString();
       });
+    },
+    fullDesaturation: function(hex) {
+      return this.Color(hex).desaturateByRatio(1).toString();
     },
     blend: function(options) {
       var blendColor,

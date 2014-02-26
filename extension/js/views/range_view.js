@@ -33,9 +33,9 @@
           case 'darken':
             return '#000';
           case 'saturate':
-            return '#FFF';
+            return Panel.Lib.Color.fullSaturation(this.model.get('color'));
           case 'desaturate':
-            return '#FFF';
+            return Panel.Lib.Color.fullDesaturation(this.model.get('color'));
         }
       }).call(this);
       this.$el.html(Mustache.render(this.template, _.extend({}, this.model.toJSON(), {

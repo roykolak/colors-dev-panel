@@ -31,8 +31,8 @@ class Panel.Views.RangeView extends Backbone.View
     endColor = switch @mode
       when 'lighten' then '#FFF'
       when 'darken' then '#000'
-      when 'saturate' then '#FFF'
-      when 'desaturate' then '#FFF'
+      when 'saturate' then Panel.Lib.Color.fullSaturation(@model.get('color'))
+      when 'desaturate' then Panel.Lib.Color.fullDesaturation(@model.get('color'))
 
     @$el.html Mustache.render @template, _.extend {}, @model.toJSON(),
       endColor: endColor

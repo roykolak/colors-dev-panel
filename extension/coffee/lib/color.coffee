@@ -19,9 +19,15 @@ Panel.Lib.Color =
     @range options.steps, (decimal) =>
       @Color(options.rangeStart).saturateByRatio(decimal).toString()
 
+  fullSaturation: (hex) ->
+    @Color(hex).saturateByRatio(1).toString()
+
   desaturate: (options) ->
     @range options.steps, (decimal) =>
       @Color(options.rangeStart).desaturateByRatio(decimal).toString()
+
+  fullDesaturation: (hex) ->
+    @Color(hex).desaturateByRatio(1).toString()
 
   blend: (options) ->
     blendColor = @Color(options.blendColor)

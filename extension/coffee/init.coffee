@@ -24,7 +24,8 @@ model.on 'change:color', ->
 if chrome.runtime?
   port = chrome.runtime.connect()
   port.postMessage(label: 'retrieve_state')
-  port.onMessage.addListener (data) -> model.set data
+  port.onMessage.addListener (data) ->
+    model.set data
 
   model.on 'change', ->
     port.postMessage(label: 'save_state', data: model.toJSON())

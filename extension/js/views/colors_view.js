@@ -102,7 +102,7 @@
       document.execCommand('SelectAll');
       document.execCommand("Copy", false, null);
       document.body.removeChild(copyDiv);
-      return $el.parent().addClass('flash_once animated');
+      return $el.parent().addClass('flash_once fast_animated');
     };
 
     ColorsView.prototype.onColorClicked = function(ev) {

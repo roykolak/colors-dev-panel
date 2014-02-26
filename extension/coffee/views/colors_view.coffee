@@ -85,7 +85,7 @@ class Panel.Views.ColorsView extends Backbone.View
     document.execCommand("Copy", false, null)
 
     document.body.removeChild(copyDiv)
-    $el.parent().addClass('flash_once animated')
+    $el.parent().addClass('flash_once fast_animated')
 
   onColorClicked: (ev) ->
     ev.preventDefault()
