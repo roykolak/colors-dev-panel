@@ -1,5 +1,6 @@
 {
-  "name": "Colors dev panel",
+  "name": "Colors Dev Panel",
+  "short_name": "Colors Panels",
   "version": "0.4.0",
   "manifest_version": 2,
   "description": "Colors, in your dev inspector",
