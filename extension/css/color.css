@@ -76,9 +76,6 @@ input[type=range] {
   max-height:100%;
   box-sizing: border-box;
 }
-.main .colors {
-  margin-bottom: 40px;
-}
 .tabs {
   background: #E7E7E7;
   padding: 3px 5px 0;
@@ -237,6 +234,9 @@ input.steps {
 }
 .middle .range_colors {
   padding: 10px;
+}
+.main .range_colors {
+  margin-bottom: 40px;
 }
 .middle .range_colors li {
   width: 27px;
