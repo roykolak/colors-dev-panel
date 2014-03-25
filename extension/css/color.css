@@ -155,10 +155,10 @@ li:hover .copy {
   background: #E6E6E6;
   padding: 5px 10px 7px;
   right: 0px;
-  left: 426px;
+  left: 404px;
 }
 .collapsed_page_colors .range_controls {
-  left: 223px;
+  left: 201px;
 }
 input.steps {
   width: 100%;
@@ -259,7 +259,7 @@ input.steps {
 .copy_controls {
   position: absolute;
   top: -2px;
-  right: 10px;
+  right: -2px;
   z-index: 20;
 }
 .end_color {
@@ -344,4 +344,11 @@ input.steps {
 }
 .recent_colors li:first-child {
   height: 26px;
+}
+.contribute {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  z-index: 100;
+  font-size: 11px;
 }

@@ -89,7 +89,7 @@
       }).call(this);
       return this.update(view.render().el);
     }, tabView);
-    return $('.main').html(tabView.render().el);
+    return $('.main').append(tabView.render().el);
   });
 
 }).call(this);

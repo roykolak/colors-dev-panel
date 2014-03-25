@@ -61,4 +61,4 @@ $ ->
     @update(view.render().el)
   , tabView
 
-  $('.main').html tabView.render().el
+  $('.main').append tabView.render().el
