@@ -5,12 +5,13 @@
     port.onMessage.addListener(function(message) {
       switch (message.label) {
         case 'retrieve_state':
-          return chrome.storage.sync.get('color', function(data) {
-            return port.postMessage(data.color);
+          return chrome.storage.sync.get(null, function(data) {
+            return port.postMessage(data);
           });
         case 'save_state':
           return chrome.storage.sync.set({
-            color: message.data
+            color: message.data.color,
+            recentColors: message.data.recentColors
           });
         default:
           return chrome.tabs.query({

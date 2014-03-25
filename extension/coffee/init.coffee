@@ -11,7 +11,8 @@ model = new Backbone.Model
 recentColors = new Backbone.Collection
 
 model.on 'change:color', ->
-  recentColors.add new Backbone.Model model.toJSON()
+  recentColors.add new Backbone.Model
+    color: model.get('color')
   if model.get('syncColor')
     if chrome.runtime?
       color = model.get('syncColor')
@@ -28,10 +29,13 @@ if chrome.runtime?
   port = chrome.runtime.connect()
   port.postMessage(label: 'retrieve_state')
   port.onMessage.addListener (data) ->
-    model.set data
+    model.set data.color
+    recentColors.reset data.recentColors
 
   model.on 'change', ->
-    port.postMessage(label: 'save_state', data: model.toJSON())
+    port.postMessage label: 'save_state', data:
+      color: model.toJSON()
+      recentColors: recentColors.toJSON().splice(0, 20)
 
 $ ->
   colorView = new Panel.Views.ColorView model: model

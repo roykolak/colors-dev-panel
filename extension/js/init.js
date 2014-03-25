@@ -17,7 +17,9 @@
 
   model.on('change:color', function() {
     var color;
-    recentColors.add(new Backbone.Model(model.toJSON()));
+    recentColors.add(new Backbone.Model({
+      color: model.get('color')
+    }));
     if (model.get('syncColor')) {
       if (chrome.runtime != null) {
         color = model.get('syncColor');
@@ -36,12 +38,16 @@
       label: 'retrieve_state'
     });
     port.onMessage.addListener(function(data) {
-      return model.set(data);
+      model.set(data.color);
+      return recentColors.reset(data.recentColors);
     });
     model.on('change', function() {
       return port.postMessage({
         label: 'save_state',
-        data: model.toJSON()
+        data: {
+          color: model.toJSON(),
+          recentColors: recentColors.toJSON().splice(0, 20)
+        }
       });
     });
   }

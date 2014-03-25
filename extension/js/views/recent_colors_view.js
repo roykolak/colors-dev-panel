@@ -18,7 +18,8 @@
     };
 
     RecentColorsView.prototype.initialize = function() {
-      return this.collection.on('add', this.onColorAdd, this);
+      this.collection.on('add', this.onColorAdd, this);
+      return this.collection.on('reset', this.render, this);
     };
 
     RecentColorsView.prototype.render = function() {

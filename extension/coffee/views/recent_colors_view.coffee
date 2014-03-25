@@ -13,6 +13,7 @@ class Panel.Views.RecentColorsView extends Backbone.View
 
   initialize: ->
     @collection.on 'add', @onColorAdd, @
+    @collection.on 'reset', @render, @
 
   render: ->
     properties = colors: @collection.toJSON().reverse().splice(0, 8)
