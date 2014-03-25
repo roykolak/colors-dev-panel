@@ -21,3 +21,22 @@ chrome.extension.onMessage.addListener (message, sender) ->
         for color in message.color
           for el in colorElementMap[prop][color] || []
             el.style[prop] = message.newColor
+
+    when 'color_to_sync_selected'
+      for prop in properties
+        for color in message.color
+          for el in colorElementMap[prop][color] || []
+            bringAttentionToEl(el)
+
+bringAttentionToEl = (el) ->
+  # lame
+  el.style.visibility = 'hidden'
+  setTimeout ->
+    el.style.visibility = 'visible'
+    setTimeout ->
+      el.style.visibility = 'hidden'
+      setTimeout ->
+        el.style.visibility = 'visible'
+      , 250
+    , 250
+  , 250

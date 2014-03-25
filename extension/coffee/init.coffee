@@ -25,6 +25,17 @@ model.on 'change:color', ->
         ]
         newColor: model.get('color')
 
+model.on 'change:syncColor', ->
+  if chrome.runtime? && model.get('syncColor')
+    color = model.get('syncColor')
+    chrome.runtime.connect().postMessage
+      label: 'color_to_sync_selected'
+      color: [
+        Panel.Lib.Color.toHexCSS color
+        Panel.Lib.Color.toRgbCSS color
+        Panel.Lib.Color.toHslCSS color
+      ]
+
 if chrome.runtime?
   port = chrome.runtime.connect()
   port.postMessage(label: 'retrieve_state')

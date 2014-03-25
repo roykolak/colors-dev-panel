@@ -32,6 +32,17 @@
     }
   });
 
+  model.on('change:syncColor', function() {
+    var color;
+    if ((chrome.runtime != null) && model.get('syncColor')) {
+      color = model.get('syncColor');
+      return chrome.runtime.connect().postMessage({
+        label: 'color_to_sync_selected',
+        color: [Panel.Lib.Color.toHexCSS(color), Panel.Lib.Color.toRgbCSS(color), Panel.Lib.Color.toHslCSS(color)]
+      });
+    }
+  });
+
   if (chrome.runtime != null) {
     port = chrome.runtime.connect();
     port.postMessage({
