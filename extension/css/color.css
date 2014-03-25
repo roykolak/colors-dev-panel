@@ -54,14 +54,15 @@ input[type=range] {
   border: 1px solid #000;
 }
 .profile {
-  width: 100%;
+  width: 200px;
   height: 100%;
+  border-top: 1px solid #AAA;
   float: left;
   position: relative;
-  margin-right: 2px;
+  margin-top: 24px;
 }
 .side {
-  width: 198px;
+  width: 201px;
   background: #FFF;
   position: fixed;
   float: left;
@@ -111,9 +112,9 @@ input[type=range] {
 }
 .profile .formats {
   position: absolute;
-  bottom: 32px;
+  bottom: 58px;
   left: 0;
-  width: 197px;
+  width: 200px;
   height: 70px;
   background: rgba(255,255,255, 0.7);
 }
@@ -154,10 +155,10 @@ li:hover .copy {
   background: #E6E6E6;
   padding: 5px 10px 7px;
   right: 0px;
-  left: 401px;
+  left: 426px;
 }
 .collapsed_page_colors .range_controls {
-  left: 198px;
+  left: 223px;
 }
 input.steps {
   width: 100%;
@@ -203,10 +204,11 @@ input.steps {
   float: right;
 }
 .color_inputs {
+  box-sizing: border-box;
   position: fixed;
   bottom: 0px;
   padding: 4px 8px 3px;
-  width: 181px;
+  width: 200px;
   background: #E6E6E6;
   border-top: 1px solid #AAA;
 }
@@ -222,7 +224,7 @@ input.steps {
   float: left;
 }
 .padding {
-  width: 198px;
+  width: 201px;
   height: 100%;
   float: left;
 }
@@ -324,4 +326,22 @@ input.steps {
 }
 .expand {
   background: url(../images/expand.png);
+}
+.recent_colors {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200px;
+  height: 24px;
+  z-index: 100;
+  background: #E7E7E7;
+}
+.recent_colors li {
+  width: 25px;
+  height: 24px;
+  cursor: pointer;
+  float: left;
+}
+.recent_colors li:first-child {
+  height: 26px;
 }

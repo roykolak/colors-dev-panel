@@ -8,7 +8,10 @@ model = new Backbone.Model
   tab: 'lighten'
   pageColorsCollapsed: false
 
+recentColors = new Backbone.Collection
+
 model.on 'change:color', ->
+  recentColors.add new Backbone.Model model.toJSON()
   if model.get('syncColor')
     if chrome.runtime?
       color = model.get('syncColor')
@@ -36,6 +39,12 @@ $ ->
 
   colorControlsView = new Panel.Views.ColorControlsView model: model
   $('.side').append colorControlsView.render().el
+
+  recentColorsView = new Panel.Views.RecentColorsView
+    collection: recentColors
+    model: model
+  $('.side').prepend recentColorsView.render().el
+
 
   paletteView = new Panel.Views.PaletteView model: model
   $('.middle').html paletteView.render().el
