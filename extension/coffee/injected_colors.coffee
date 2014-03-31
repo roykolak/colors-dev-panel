@@ -9,13 +9,13 @@ chrome.extension.onMessage.addListener (message, sender) ->
       colorElementMap = color: {}, backgroundColor: {}
       colors = color: [], backgroundColor: []
 
-      for el in document.body.querySelectorAll('*')
-        for prop in properties
-          color = window.getComputedStyle(el)[prop]
+      for el in document.querySelectorAll('*')
+        for cssProperty in properties
+          color = getComputedStyle(el)[cssProperty]
           if color && color != 'transparent'
-            colorElementMap[prop][color] ?= []
-            colorElementMap[prop][color].push el
-            colors[prop].push color if colors[prop].indexOf(color) == -1
+            colorElementMap[cssProperty][color] ?= []
+            colorElementMap[cssProperty][color].push el
+            colors[cssProperty].push color if colors[cssProperty].indexOf(color) == -1
 
       chrome.extension.sendMessage colors
 

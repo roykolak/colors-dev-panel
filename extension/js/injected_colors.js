@@ -20,19 +20,19 @@
           color: [],
           backgroundColor: []
         };
-        _ref = document.body.querySelectorAll('*');
+        _ref = document.querySelectorAll('*');
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           el = _ref[_i];
           for (_j = 0, _len1 = properties.length; _j < _len1; _j++) {
-            prop = properties[_j];
-            color = window.getComputedStyle(el)[prop];
+            cssProperty = properties[_j];
+            color = getComputedStyle(el)[cssProperty];
             if (color && color !== 'transparent') {
-              if ((_ref1 = (_base = colorElementMap[prop])[color]) == null) {
+              if ((_ref1 = (_base = colorElementMap[cssProperty])[color]) == null) {
                 _base[color] = [];
               }
-              colorElementMap[prop][color].push(el);
-              if (colors[prop].indexOf(color) === -1) {
-                colors[prop].push(color);
+              colorElementMap[cssProperty][color].push(el);
+              if (colors[cssProperty].indexOf(color) === -1) {
+                colors[cssProperty].push(color);
               }
             }
           }
