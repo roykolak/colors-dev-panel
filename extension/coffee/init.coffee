@@ -48,6 +48,12 @@ if chrome.runtime?
       color: model.toJSON()
       recentColors: recentColors.toJSON().splice(0, 20)
 
+  $ ->
+    $('.contribute').click (ev) ->
+      ev.preventDefault()
+      port.postMessage label: 'open_contribute', data:
+        url: $(ev.currentTarget).attr('href')
+
 $ ->
   colorView = new Panel.Views.ColorView model: model
   $('.side').html colorView.render().el

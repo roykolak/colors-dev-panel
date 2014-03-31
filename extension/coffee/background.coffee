@@ -8,6 +8,10 @@ chrome.extension.onConnect.addListener (port) ->
         chrome.storage.sync.set
           color: message.data.color
           recentColors: message.data.recentColors
+
+      when 'open_contribute'
+        chrome.tabs.create
+          url: message.data.url
       else
         chrome.tabs.query currentWindow: true, active: true, (tabs) ->
           chrome.tabs.sendMessage(tabs[0].id, message)

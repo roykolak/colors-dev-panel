@@ -13,6 +13,10 @@
             color: message.data.color,
             recentColors: message.data.recentColors
           });
+        case 'open_contribute':
+          return chrome.tabs.create({
+            url: message.data.url
+          });
         default:
           return chrome.tabs.query({
             currentWindow: true,

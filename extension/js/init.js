@@ -61,6 +61,17 @@
         }
       });
     });
+    $(function() {
+      return $('.contribute').click(function(ev) {
+        ev.preventDefault();
+        return port.postMessage({
+          label: 'open_contribute',
+          data: {
+            url: $(ev.currentTarget).attr('href')
+          }
+        });
+      });
+    });
   }
 
   $(function() {
