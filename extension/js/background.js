@@ -26,8 +26,18 @@
           });
       }
     });
-    return chrome.extension.onMessage.addListener(function(message, sender) {
+    chrome.extension.onMessage.addListener(function(message, sender) {
       return port.postMessage(message);
+    });
+    chrome.tabs.onActivated.addListener(function() {
+      return port.postMessage({
+        label: 'reload_palette'
+      });
+    });
+    return chrome.tabs.onUpdated.addListener(function() {
+      return port.postMessage({
+        label: 'reload_palette'
+      });
     });
   });
 

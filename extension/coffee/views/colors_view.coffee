@@ -13,11 +13,14 @@ class Panel.Views.ColorsView extends Backbone.View
   events:
     "click .copy": "onCopyClicked"
     "click li": "onColorClicked"
+    "mouseover li": "onColorMouseover"
+    "mouseout li": "onColorMouseout"
 
   initialize: (options) ->
     @colors = options.colors
     @draggable = options.draggable || true
     @droppable = options.droppable || false
+    @cssProperty = options.cssProperty || ""
 
   render: ->
     properties = _.extend {}, @model.toJSON(), colors: @colors
@@ -92,3 +95,13 @@ class Panel.Views.ColorsView extends Backbone.View
     $el = $(ev.currentTarget)
     event = if $el.hasClass 'selected' then 'unselect' else 'select'
     @trigger event, $el.data('color'), $el
+
+  onColorMouseout: (ev) ->
+    ev.preventDefault()
+    $el = $(ev.currentTarget)
+    @trigger 'mouseout', $el.data('color'), $el, @cssProperty
+
+  onColorMouseover: (ev) ->
+    ev.preventDefault()
+    $el = $(ev.currentTarget)
+    @trigger 'mouseover', $el.data('color'), $el, @cssProperty

@@ -3,7 +3,9 @@ model = new Backbone.Model
   rangeStart: '#4573D5'
   steps: 40
   blendColor: '#D54545'
-  palette: []
+  palette:
+    color: ['#CCC', '#000']
+    backgroundColor: ['#FFF']
   copyFormat: 'hex'
   tab: 'lighten'
   pageColorsCollapsed: false
@@ -39,9 +41,15 @@ model.on 'change:syncColor', ->
 if chrome.runtime?
   port = chrome.runtime.connect()
   port.postMessage(label: 'retrieve_state')
-  port.onMessage.addListener (data) ->
-    model.set data.color
-    recentColors.reset data.recentColors
+
+  port.onMessage.addListener (data) =>
+    if data.label == 'reload_palette'
+      port.postMessage(label: 'fetch_palette')
+      port.onMessage.addListener (msg) =>
+        @model.set palette: msg
+    else
+      model.set data.color
+      recentColors.reset data.recentColors
 
   model.on 'change', ->
     port.postMessage label: 'save_state', data:

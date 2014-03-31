@@ -11,7 +11,7 @@
       return PaletteView.__super__.constructor.apply(this, arguments);
     }
 
-    PaletteView.prototype.template = "<ul class=\"tabs\">\n  <li class=\"selected\">\n    <a href=\"#\">Page Colors</a>\n  </li>\n</ul>\n<a href=\"#\" class=\"fetch_colors\">Reload</a>\n<p class=\"palette_instructions\">Select color to modify on page</p>\n<div class=\"range_colors\">loading</div>";
+    PaletteView.prototype.template = "<ul class=\"tabs\">\n  <li class=\"selected\">\n    <a href=\"#\">Page Colors</a>\n  </li>\n</ul>\n<a href=\"#\" class=\"fetch_colors\">Reload</a>\n<p class=\"palette_instructions\">Select color to modify on page</p>\n<div class=\"range_colors\">\n  <span>Text colors</span>\n  <div class=\"color_values values\"></div>\n  <span>Background colors</span>\n  <div class=\"backgroundColor_values values\"></div>\n</div>";
 
     PaletteView.prototype.events = {
       "click .fetch_colors": "onFetchColorsClick"
@@ -48,37 +48,64 @@
     };
 
     PaletteView.prototype.renderColors = function() {
-      var colorsView,
+      var colorsView, property, _i, _len, _ref, _results,
         _this = this;
-      colorsView = new Panel.Views.ColorsView({
-        model: this.model,
-        colors: this.model.get('palette'),
-        draggable: false,
-        droppable: true
-      });
-      colorsView.on('select', function(color, $el) {
-        _this.model.set({
-          color: color,
-          syncColor: color,
-          rangeStart: color
+      _ref = ['color', 'backgroundColor'];
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        property = _ref[_i];
+        colorsView = new Panel.Views.ColorsView({
+          model: this.model,
+          colors: this.model.get('palette')[property],
+          draggable: false,
+          droppable: true,
+          cssProperty: property
         });
-        colorsView.$('.selected').removeClass('selected');
-        _this.$('.range_colors li').css({
-          opacity: 0.2
+        colorsView.on('select', function(color, $el) {
+          _this.model.set({
+            color: color,
+            syncColor: color,
+            rangeStart: color
+          });
+          colorsView.$('.selected').removeClass('selected');
+          _this.$('.range_colors li').css({
+            opacity: 0.2
+          });
+          $el.addClass('selected');
+          return $el.css({
+            opacity: 1
+          });
         });
-        $el.addClass('selected');
-        return $el.css({
-          opacity: 1
+        colorsView.on('unselect', function(color, $el) {
+          _this.model.unset('syncColor');
+          colorsView.$('.selected').removeClass('selected');
+          return _this.$('.range_colors li').css({
+            opacity: 1
+          });
         });
-      });
-      colorsView.on('unselect', function(color, $el) {
-        _this.model.unset('syncColor');
-        colorsView.$('.selected').removeClass('selected');
-        return _this.$('.range_colors li').css({
-          opacity: 1
-        });
-      });
-      return this.$('.range_colors').html(colorsView.render().el);
+        if (chrome.runtime != null) {
+          colorsView.on('mouseover', function(color, $el, cssProperty) {
+            var port;
+            port = chrome.runtime.connect();
+            return port.postMessage({
+              label: 'color_to_sync_highlight',
+              color: color,
+              cssProperty: cssProperty
+            });
+          });
+          colorsView.on('mouseout', function(color, $el, cssProperty) {
+            var port;
+            port = chrome.runtime.connect();
+            return port.postMessage({
+              label: 'color_to_sync_unhighlight',
+              color: color,
+              cssProperty: cssProperty
+            });
+          });
+        }
+        _results.push(this.$(".range_colors ." + property + "_values").html(colorsView.render().el));
+      }
+      return _results;
     };
 
     PaletteView.prototype.onReloadClick = function(ev) {

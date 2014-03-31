@@ -178,9 +178,11 @@ input.steps {
   margin-bottom: 5px;
 }
 .palette_instructions {
-  margin: 12px 10px 0px;
+  padding: 5px;
+  margin: 0;
   font-size: 11px;
   color: #444;
+  background: #FEF6D3;
 }
 .palette li {
   display: inline-block;
@@ -235,10 +237,19 @@ input.steps {
   display: none;
 }
 .middle .range_colors {
-  padding: 10px;
+  padding: 0 10px;
+}
+.middle .range_colors span {
+  font-size: 11px;
+  display: inline-block;
+  margin: 10px 0 5px;
 }
 .main .range_colors {
   margin-bottom: 40px;
+}
+.middle .values {
+  border-bottom: 1px solid #DDD;
+  padding-bottom: 3px;
 }
 .middle .range_colors li {
   width: 27px;

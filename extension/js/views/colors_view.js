@@ -15,13 +15,16 @@
 
     ColorsView.prototype.events = {
       "click .copy": "onCopyClicked",
-      "click li": "onColorClicked"
+      "click li": "onColorClicked",
+      "mouseover li": "onColorMouseover",
+      "mouseout li": "onColorMouseout"
     };
 
     ColorsView.prototype.initialize = function(options) {
       this.colors = options.colors;
       this.draggable = options.draggable || true;
-      return this.droppable = options.droppable || false;
+      this.droppable = options.droppable || false;
+      return this.cssProperty = options.cssProperty || "";
     };
 
     ColorsView.prototype.render = function() {
@@ -111,6 +114,20 @@
       $el = $(ev.currentTarget);
       event = $el.hasClass('selected') ? 'unselect' : 'select';
       return this.trigger(event, $el.data('color'), $el);
+    };
+
+    ColorsView.prototype.onColorMouseout = function(ev) {
+      var $el;
+      ev.preventDefault();
+      $el = $(ev.currentTarget);
+      return this.trigger('mouseout', $el.data('color'), $el, this.cssProperty);
+    };
+
+    ColorsView.prototype.onColorMouseover = function(ev) {
+      var $el;
+      ev.preventDefault();
+      $el = $(ev.currentTarget);
+      return this.trigger('mouseover', $el.data('color'), $el, this.cssProperty);
     };
 
     return ColorsView;

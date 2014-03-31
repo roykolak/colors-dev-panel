@@ -18,3 +18,9 @@ chrome.extension.onConnect.addListener (port) ->
 
   chrome.extension.onMessage.addListener (message, sender) ->
     port.postMessage(message)
+
+  chrome.tabs.onActivated.addListener ->
+    port.postMessage label: 'reload_palette'
+
+  chrome.tabs.onUpdated.addListener ->
+    port.postMessage label: 'reload_palette'
